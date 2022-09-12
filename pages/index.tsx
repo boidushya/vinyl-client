@@ -48,7 +48,7 @@ const Home: NextPage = () => {
 							</div>
 							<input
 								type="text"
-								className="w-64 bg-slate-900 outline-none text-purple-100 text-sm rounded-lg block p-2.5 px-10"
+								className="w-64 bg-slate-900 outline-none text-purple-100 text-sm rounded-lg block p-2.5 px-10 focus:ring-violet-300 focus:ring-opacity-40 ring-0 focus:ring-2"
 								placeholder="Enter Game Code"
 							/>
 							<button className="absolute inset-y-0 right-0 flex items-center px-4 font-bold text-white bg-indigo-700 rounded-r-lg hover:bg-indigo-600 focus:bg-indigo-800">
