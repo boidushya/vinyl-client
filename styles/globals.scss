@@ -26,18 +26,55 @@ a {
 
 .bg-hero {
 	position: relative;
-	background: rgb(111, 67, 148);
-	background: radial-gradient(
-		ellipse at 50% 0%,
-		rgba(111, 67, 148, 1) 00%,
-		rgba(68, 54, 113, 1) 33%,
-		rgba(19, 19, 27, 1) 100%
-	);
+	background-image: repeating-radial-gradient(
+			circle at 50% 0px,
+			transparent 0,
+			rgba(19, 19, 27, 0.15) 10px
+		),
+		radial-gradient(
+			ellipse at 50% 0%,
+			rgba(111, 67, 148, 1) 00%,
+			rgba(68, 54, 113, 1) 33%,
+			rgba(19, 19, 27, 1) 100%
+		);
+
+	&:before {
+		position: absolute;
+		content: "";
+		top: 0;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		height: 300px;
+		width: 300px;
+		border-radius: 1000rem;
+		background: radial-gradient(
+			ellipse at 0% 0%,
+			rgb(75, 45, 99) 00%,
+			rgb(55, 44, 93) 33%,
+			rgba(19, 19, 27, 1) 100%
+		);
+		border: 10px solid #15131e;
+		animation: rotate linear 5s infinite;
+	}
 	&:after {
 		position: absolute;
 		content: "";
-		z-index: 1;
 		top: 0;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		height: 20px;
+		width: 20px;
+		border-radius: 1000rem;
+		background: white;
+	}
+}
+
+@keyframes rotate {
+	0% {
+		transform: translate(-50%, -50%) rotate(0deg);
+	}
+	100% {
+		transform: translate(-50%, -50%) rotate(360deg);
 	}
 }
 

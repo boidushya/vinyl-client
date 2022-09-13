@@ -1,12 +1,35 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
-import React from "react";
-import styles from "styles/Home.module.css";
+import React, { useEffect, useState } from "react";
 
 const Home: NextPage = () => {
+	const songName = "Jenny - Studio Killers";
+	const [isMuted, setIsMuted] = useState(false);
+	const [isTyping, setIsTyping] = useState(false);
+
+	const keyboardMap: { key: string; action: () => void }[] = [
+		{
+			key: "m",
+			action: () => setIsMuted(isMuted ? false : true),
+		},
+	];
+
+	const keyboardEvents = (e: KeyboardEvent) => {
+		keyboardMap.forEach(
+			item =>
+				e.key.toLocaleLowerCase() === item.key.toLocaleLowerCase() &&
+				!isTyping &&
+				item.action()
+		);
+	};
+
+	useEffect(() => {
+		window.addEventListener("keydown", keyboardEvents);
+		return () => window.removeEventListener("keydown", keyboardEvents);
+	});
+
 	return (
-		<div className="min-h-screen grid place-items-center">
+		<div className="min-h-screen grid place-items-center relative">
 			<Head>
 				<title>Vinyl - Hangman for audiophiles</title>
 				<meta
@@ -17,7 +40,7 @@ const Home: NextPage = () => {
 			</Head>
 
 			<main className="h-full w-full grid place-items-center bg-hero p-8">
-				<div className="space-y-8 grid place-items-center">
+				<div className="space-y-12 grid place-items-center">
 					<h1 className="relative text-[#FF3AF3] text-9xl text-stroke font-heading select-none ">
 						Vinyl
 						<span className="text-[#F7D146] text-stroke absolute -left-2 -top-1">
@@ -27,7 +50,7 @@ const Home: NextPage = () => {
 							Vinyl
 						</span>
 					</h1>
-					<p className="text-purple-200">Guess the song ✨</p>
+					{/* <p className="text-purple-200">Guess the song ✨</p> */}
 					<div className="grid place-items-center gap-4">
 						<div className="relative">
 							<div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
@@ -47,7 +70,11 @@ const Home: NextPage = () => {
 								</svg>
 							</div>
 							<input
+								onFocus={() => setIsTyping(true)}
+								onBlur={() => setIsTyping(false)}
 								type="text"
+								autoComplete="off"
+								autoCorrect="off"
 								className="w-64 bg-slate-900 outline-none text-purple-100 text-sm rounded-lg block p-2.5 px-10 focus:ring-violet-300 focus:ring-opacity-40 ring-0 focus:ring-2"
 								placeholder="Enter Game Code"
 							/>
@@ -68,12 +95,38 @@ const Home: NextPage = () => {
 							</h1>
 							<span className="w-12 h-0.5 bg-white opacity-10 rounded-full" />
 						</div>
-						<button className="py-2.5 px-5  flex items-center font-bold text-white bg-indigo-600 rounded-lg hover:bg-indigo-500 focus:bg-indigo-700">
+						<button className="relative py-2.5 px-5  flex items-center font-bold text-white bg-indigo-600 rounded-lg hover:bg-indigo-500 focus:bg-indigo-700">
 							Create new game
 						</button>
 					</div>
 				</div>
 			</main>
+			<div className="absolute bottom-0 right-0 text-violet-200 text-opacity-50 py-4 px-8 text-sm select-none">
+				Now Playing: <span>{songName}</span>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					strokeWidth={1.5}
+					stroke="currentColor"
+					onClick={() => setIsMuted(!isMuted)}
+					className="w-4 h-4 inline ml-1 align-middle cursor-pointer"
+				>
+					{isMuted ? (
+						<path
+							strokeLinecap="round"
+							strokeLinejoin="round"
+							d="M17.25 9.75L19.5 12m0 0l2.25 2.25M19.5 12l2.25-2.25M19.5 12l-2.25 2.25m-10.5-6l4.72-4.72a.75.75 0 011.28.531V19.94a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.506-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.395C2.806 8.757 3.63 8.25 4.51 8.25H6.75z"
+						/>
+					) : (
+						<path
+							strokeLinecap="round"
+							strokeLinejoin="round"
+							d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z"
+						/>
+					)}
+				</svg>
+			</div>
 		</div>
 	);
 };
