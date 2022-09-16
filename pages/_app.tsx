@@ -1,9 +1,14 @@
+import React from "react";
 import "styles/globals.scss";
 import type { AppProps } from "next/app";
-import React from "react";
+import { AlertProvider } from "store/alertContext";
 
 function MyApp({ Component, pageProps }: AppProps) {
-	return <Component {...pageProps} />;
+	return (
+		<AlertProvider>
+			<Component {...pageProps} />
+		</AlertProvider>
+	);
 }
 
 export default MyApp;
