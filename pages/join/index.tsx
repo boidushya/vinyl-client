@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import Head from "next/head";
 import type { NextPage } from "next";
 import Container from "components/Layout/Container";

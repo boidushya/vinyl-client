@@ -3,15 +3,15 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 interface AlertContextType {
-	successAlert: (msg: string) => void;
-	errorAlert: (msg: string) => void;
-	infoAlert: (msg: string) => void;
+	success: (msg: string) => void;
+	error: (msg: string) => void;
+	info: (msg: string) => void;
 }
 
 export const AlertContext = createContext<AlertContextType>({
-	successAlert: () => {},
-	errorAlert: () => {},
-	infoAlert: () => {},
+	success: () => {},
+	error: () => {},
+	info: () => {},
 });
 
 interface AlertProviderProps {
@@ -19,23 +19,23 @@ interface AlertProviderProps {
 }
 
 export const AlertProvider: React.FC<AlertProviderProps> = ({ children }) => {
-	const successAlert = (msg: string) => {
+	const success = (msg: string) => {
 		toast.success(msg);
 	};
 
-	const errorAlert = (msg: string) => {
+	const error = (msg: string) => {
 		toast.error(msg);
 	};
 
-	const infoAlert = (msg: string) => {
+	const info = (msg: string) => {
 		toast.info(msg);
 	};
 
 	const value = useMemo(
 		() => ({
-			successAlert,
-			errorAlert,
-			infoAlert,
+			success,
+			error,
+			info,
 		}),
 		[]
 	);

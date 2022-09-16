@@ -1,12 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import Profile from "components/Profile/Profile";
 import Button from "components/Button/Button";
+import useUserStore from "store/userStore";
 
 interface GameSettingPanelProps {}
-
-const username = "admin";
 
 const GameSettingPanel: React.FC<GameSettingPanelProps> = () => {
 	const [rounds, setRounds] = useState<number>(10);
@@ -16,7 +15,10 @@ const GameSettingPanel: React.FC<GameSettingPanelProps> = () => {
 		else setRounds(value);
 	};
 
+	const username = useUserStore(state => state.username);
+
 	const startGame = () => {};
+
 	return (
 		<div className="flex flex-col gap-5 pt-9 h-full">
 			<h2 className="text-xl font-semibold">Settings</h2>

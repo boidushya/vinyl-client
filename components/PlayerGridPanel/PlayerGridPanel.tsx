@@ -1,12 +1,12 @@
 import React from "react";
 import Profile from "components/Profile/Profile";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import useAlert from "store/alertContext";
+import useAlert from "store/alertStore";
 
 interface PlayerGridPanelProps {}
 
 const PlayerGridPanel: React.FC<PlayerGridPanelProps> = ({}) => {
-	const { successAlert } = useAlert();
+	const { success } = useAlert();
 	const usernames = [
 		"admin",
 		"Test",
@@ -52,7 +52,7 @@ const PlayerGridPanel: React.FC<PlayerGridPanelProps> = ({}) => {
 				<CopyToClipboard
 					text="https://www.npmjs.com/"
 					onCopy={() => {
-						successAlert("Copied to Clipboard");
+						success("Copied to Clipboard");
 					}}
 				>
 					<div
