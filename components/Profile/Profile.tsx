@@ -1,14 +1,48 @@
 import React from "react";
 import Identicon from "react-identicons";
-import Image from "next/image";
+import { FiEdit2 } from "react-icons/fi";
+import { IoMdClose } from "react-icons/io";
 
 interface ProfileProps {
+	// change with user id
 	username: string;
+	isEditable?: boolean;
+	isKickable?: boolean;
 }
 
-const Profile: React.FC<ProfileProps> = ({ username }) => {
+// TODO
+// - admin id
+// admin username
+
+const isAdmin = true;
+const currentUsername = "admin";
+
+const Profile: React.FC<ProfileProps> = ({
+	username,
+	isEditable = false,
+	isKickable = false,
+}) => {
+	const showEditButton =
+		isEditable && (isAdmin || username === currentUsername);
+
+	const showKickButton = isAdmin && isKickable;
+	const onClick = () => {
+		console.log(showEditButton, showKickButton);
+		if (isEditable && username === currentUsername) {
+			// edit modal
+		} else if (isKickable) {
+			// kick logic
+		}
+	};
+
 	return (
-		<div className="flex flex-col gap-3 items-center">
+		<div
+			className={`flex flex-col gap-3 items-center 
+				${showKickButton && "hover:text-red-600 hover:opacity-80"} 
+				${showEditButton && "hover:text-green-500 hover:opacity-80"} 
+			}`}
+			onClick={onClick}
+		>
 			<div className="bg-white p-3 rounded-full flex justify-center items-center w-28 h-28">
 				<Identicon
 					string={username}
@@ -18,8 +52,13 @@ const Profile: React.FC<ProfileProps> = ({ username }) => {
 				/>
 			</div>
 
-			<div>
-				<p>{username}</p>
+			<div className="flex gap-1 items-center justify-center">
+				<div>
+					<p>{username}</p>
+				</div>
+
+				<div>{showKickButton && <IoMdClose className="pt-1" />}</div>
+				<div>{showEditButton && <FiEdit2 />}</div>
 			</div>
 		</div>
 	);

@@ -3,7 +3,7 @@ import type { NextPage } from "next";
 import Container from "components/Layout/Container";
 
 //panels
-import PlayerGridPanel from "components/PlayerGridPanel/PlayerGridPanel";
+import MusicCanvasPanel from "components/MusicCanvasPanel/MusicCanvasPanel";
 import LeaderBoardPanel from "components/LeaderBoardPanel/LeaderBoardPanel";
 import ChatPanel from "components/ChatPanel/ChatPanel";
 
@@ -19,7 +19,7 @@ const Game: NextPage = () => {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<Container left={<LeaderBoardPanel />} right={<ChatPanel />}>
-				<PlayerGridPanel />
+				<MusicCanvasPanel />
 			</Container>
 		</div>
 	);
