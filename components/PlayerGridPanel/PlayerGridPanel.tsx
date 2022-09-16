@@ -1,9 +1,9 @@
 import React from "react";
 import Profile from "components/Profile/Profile";
 
-interface PlayerGridProps {}
+interface PlayerGridPanelProps {}
 
-const PlayerGrid: React.FC<PlayerGridProps> = ({}) => {
+const PlayerGridPanel: React.FC<PlayerGridPanelProps> = ({}) => {
 	const usernames = [
 		"mavn",
 		"Test",
@@ -19,9 +19,9 @@ const PlayerGrid: React.FC<PlayerGridProps> = ({}) => {
 		"lorem ipsum",
 	];
 	return (
-		<div className="bg-[#27273E] p-6 rounded-xl flex items-center flex-col gap-7 h-full">
+		<div className="bg-[#27273E] rounded-xl flex items-center flex-col gap-9 py-9 h-full">
 			<h2 className="text-xl font-semibold">Players</h2>
-			<div className="grid grid-cols-4 gap-16">
+			<div className="grid grid-cols-4 gap-12">
 				{usernames.map(username => (
 					<Profile username={username} key={username} />
 				))}
@@ -30,4 +30,4 @@ const PlayerGrid: React.FC<PlayerGridProps> = ({}) => {
 	);
 };
 
-export default PlayerGrid;
+export default PlayerGridPanel;

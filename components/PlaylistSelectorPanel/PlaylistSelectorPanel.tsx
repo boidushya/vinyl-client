@@ -16,9 +16,7 @@ const playlists = [
 	},
 ];
 
-export const PlaylistSelectorPanel: React.FC<
-	PlaylistSelectorPanelProps
-> = ({}) => {
+const PlaylistSelectorPanel: React.FC<PlaylistSelectorPanelProps> = ({}) => {
 	return (
 		<div className="p-6 flex flex-col gap-5">
 			<h2 className="text-xl font-semibold">Playlist</h2>
@@ -31,8 +29,9 @@ export const PlaylistSelectorPanel: React.FC<
 						playlistName={playlist.playlistName}
 					/>
 				))}
-				{/* {JSON.stringify(playlists)} */}
 			</div>
 		</div>
 	);
 };
+
+export default PlaylistSelectorPanel;

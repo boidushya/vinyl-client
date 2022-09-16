@@ -12,11 +12,11 @@ export const Container: React.FC<ContainerProps> = ({
   right,
 }) => {
   return (
-		<div className="flex gap-9">
-			<div className="w-1/4">{left}</div>
-			<div className="grow w-1/2">{children}</div>
-			<div className="w-1/4">{right}</div>
-		</div>
+		<main className="flex gap-9 container mx-auto py-9 h-screen box-border">
+			<div className="w-1/4 h-full">{left}</div>
+			<div className="grow w-1/2 h-full">{children}</div>
+			<div className="w-1/4 h-full">{right}</div>
+		</main>
   );
 };
 

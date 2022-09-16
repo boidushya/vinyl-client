@@ -12,7 +12,7 @@ const Profile: React.FC<ProfileProps> = ({ username }) => {
 			<div className="bg-white p-3 rounded-full flex justify-center items-center w-28 h-28">
 				<Identicon
 					string={username}
-					size={60}
+					size={52}
 					padding={0}
 					bg="#ffffff"
 				/>
