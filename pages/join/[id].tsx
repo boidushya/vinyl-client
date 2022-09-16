@@ -1,7 +1,7 @@
 import Head from "next/head";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import Container from "../../components/Layout/Container";
+import Container from "components/Layout/Container";
 
 const JoinGameWithId: NextPage = () => {
   const router = useRouter();

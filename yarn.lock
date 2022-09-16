@@ -1339,6 +1339,11 @@ micromatch@^4.0.4:
     braces "^3.0.2"
     picomatch "^2.3.1"
 
+minidenticons@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/minidenticons/-/minidenticons-1.0.3.tgz#13c2393acc4dc508e00c64cd7ee0ff45afb9d028"
+  integrity sha512-I+wUlbARKcPQp9NCqX9yxilN5T7x6DgxzCyb3IR2QHAqPaU36cyPAKsExmRCRjxK9AD2nCI1zYKeOGNAkQnnvA==
+
 minimatch@^3.0.4, minimatch@^3.1.1, minimatch@^3.1.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-3.1.2.tgz#19cd194bfd3e428f049a70817c038d89ab4be35b"
@@ -1665,6 +1670,11 @@ react-dom@18.2.0:
   dependencies:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
+
+react-identicons@^1.2.5:
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/react-identicons/-/react-identicons-1.2.5.tgz#3502249e49d88f4e3500092694410a984bb102fa"
+  integrity sha512-x7prkDoc2pD7wSl2C1pGxS+XAoSdq1ABWJWTBUimVTDVJArKOLd0B4wRUJpDm4r+9y7pgf8ylyPGsmlWSV5n2g==
 
 react-is@^16.13.1:
   version "16.13.1"
