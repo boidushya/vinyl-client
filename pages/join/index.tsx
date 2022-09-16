@@ -2,6 +2,7 @@ import Head from "next/head";
 import type { NextPage } from "next";
 import Container from "components/Layout/Container";
 import PlayerGrid from "components/PlayerGrid/PlayerGrid";
+import { PlaylistSelectorPanel } from "components/PlaylistSelectorPanel/PlaylistSelectorPanel";
 
 const Join: NextPage = () => {
 	return (
@@ -15,7 +16,10 @@ const Join: NextPage = () => {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<main className="p-9 h-screen">
-				<Container left={<h1>hello</h1>} right={<h1>hello</h1>}>
+				<Container
+					left={<h1>hello</h1>}
+					right={<PlaylistSelectorPanel />}
+				>
 					<div className="grid gap-4">
 						<PlayerGrid />
 					</div>
