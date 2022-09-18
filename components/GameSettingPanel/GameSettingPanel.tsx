@@ -20,16 +20,16 @@ const GameSettingPanel: React.FC<GameSettingPanelProps> = () => {
 	const startGame = () => {};
 
 	return (
-		<div className="flex flex-col gap-5 pt-9 h-full">
+		<div className="flex flex-col h-full gap-5 pt-9">
 			<h2 className="text-xl font-semibold">Settings</h2>
-			<div className="flex justify-center items-center p-4">
+			<div className="flex items-center justify-center p-4">
 				<Profile username={username} isEditable />
 			</div>
 			<div>
 				<h2 className="text-lg font-medium">
 					No. Of Rounds ({rounds})
 				</h2>
-				<div className="mx-1 pt-2">
+				<div className="pt-2 mx-1">
 					<Slider
 						min={5}
 						max={25}
@@ -40,7 +40,7 @@ const GameSettingPanel: React.FC<GameSettingPanelProps> = () => {
 					/>
 				</div>
 			</div>
-			<div className="justify-self-end mt-auto">
+			<div className="mt-auto mb-10 justify-self-end">
 				<Button onClick={startGame} className="w-full">
 					Start Game
 				</Button>

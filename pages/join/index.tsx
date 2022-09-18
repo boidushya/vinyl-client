@@ -10,7 +10,7 @@ import PlaylistSelectorPanel from "components/PlaylistSelectorPanel/PlaylistSele
 
 const Join: NextPage = () => {
 	return (
-		<div>
+		<div className="bg-template">
 			<Head>
 				<title>Vinyl | Join Game Lobby</title>
 				<meta

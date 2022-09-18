@@ -9,7 +9,7 @@ import ChatPanel from "components/ChatPanel/ChatPanel";
 
 const Game: NextPage = () => {
 	return (
-		<div>
+		<div className="bg-template">
 			<Head>
 				<title>Vinyl | Game</title>
 				<meta

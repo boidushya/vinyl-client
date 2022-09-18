@@ -47,7 +47,7 @@ const PlayerGridPanel: React.FC<PlayerGridPanelProps> = ({}) => {
 					);
 				})}
 			</div>
-			<div className="w-full px-9 text-center justify-self-end mt-auto">
+			<div className="w-full mt-auto mb-1 text-center px-9 justify-self-end">
 				<h3>Invite Friends</h3>
 				<CopyToClipboard
 					text="https://www.npmjs.com/"
@@ -58,7 +58,7 @@ const PlayerGridPanel: React.FC<PlayerGridPanelProps> = ({}) => {
 					<div
 						data-tip
 						data-for="copy-clipboard"
-						className="block px-6 text-align py-4 bg-[#404065] hover:bg-[#383857] focus:bg-[#343459] w-full rounded-md mt-4 font-medium"
+						className="block px-4 py-3 text-align bg-[#4d4d79] hover:bg-[#414165] focus:bg-[#343459] w-full rounded-md mt-4 font-medium"
 					>
 						<span> https://www.npmjs.com/</span>
 					</div>

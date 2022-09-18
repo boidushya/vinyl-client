@@ -31,7 +31,7 @@ const PlaylistSelectorPanel: React.FC<PlaylistSelectorPanelProps> = ({}) => {
 				</p>
 				<Button
 					onClick={() => {}}
-					className="w-full py-2 justify-self-end ml-auto text-sm"
+					className="w-full py-2 ml-auto text-sm justify-self-end"
 				>
 					Login with Spotify
 				</Button>
@@ -42,9 +42,9 @@ const PlaylistSelectorPanel: React.FC<PlaylistSelectorPanelProps> = ({}) => {
 	const { showModal } = useModal();
 
 	return (
-		<div className="flex flex-col gap-5 pt-9 h-full">
-			<h2 className="text-xl font-semibold pb-4">Playlist</h2>
-			<div className="flex gap-4 flex-col">
+		<div className="flex flex-col h-full gap-5 pt-9">
+			<h2 className="pb-4 text-xl font-semibold">Playlist</h2>
+			<div className="flex flex-col gap-4">
 				{playlists.map(playlist => (
 					<Playlist
 						id={playlist.id}
@@ -54,7 +54,7 @@ const PlaylistSelectorPanel: React.FC<PlaylistSelectorPanelProps> = ({}) => {
 					/>
 				))}
 			</div>
-			<div className="justify-self-end mt-auto flex flex-col gap-4 text-center1">
+			<div className="flex flex-col gap-4 mt-auto mb-10 text-center justify-self-end">
 				<p>Play with your custom playlist</p>
 				<Button onClick={startGame} className="w-full">
 					Connect with Spotify

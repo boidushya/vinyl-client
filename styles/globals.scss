@@ -24,6 +24,14 @@ a {
 	box-sizing: border-box;
 }
 
+.bg-template {
+	background: radial-gradient(
+		ellipse at 50% 0%,
+		hsl(240, 17%, 10%) 0%,
+		hsl(240, 17%, 9%) 100%
+	);
+}
+
 .bg-hero {
 	position: relative;
 	background-image: repeating-radial-gradient(
@@ -93,9 +101,8 @@ a {
 	}
 }
 
-
 //slider
-.rc-slider-mark{ 
+.rc-slider-mark {
 	font-size: 13pt !important;
 	color: #fff !important;
 }
