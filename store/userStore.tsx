@@ -9,7 +9,7 @@ type User = {
 
 const useUserStore = create<User>(set => ({
 	id: undefined,
-	username: generateName(),
+	username: "mavn",
 	updateUsername: (username: string) =>
 		set((state: User) => ({ ...state, username: username })),
 }));
