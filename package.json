@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "framer-motion": "^7.3.5",
     "minidenticons": "^1.0.3",
     "next": "12.3.0",
     "rc-slider": "^10.0.1",
