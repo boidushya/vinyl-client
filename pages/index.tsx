@@ -2,6 +2,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+// import { dropConfetti } from "components/Celebrate/Celebrate";
 
 const Home: NextPage = () => {
 	const songName = "Jenny - Studio Killers";
@@ -104,7 +105,10 @@ const Home: NextPage = () => {
 					</div>
 				</div>
 			</main>
-			<div className="absolute bottom-0 right-0 px-8 py-4 text-sm text-opacity-50 select-none text-violet-200">
+			<div
+				className="absolute bottom-0 right-0 px-8 py-4 text-sm text-opacity-50 select-none text-violet-200"
+				// onClick={() => dropConfetti()}
+			>
 				Now Playing:{" "}
 				<span className="cursor-pointer hover:underline">
 					{songName}

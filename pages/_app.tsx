@@ -1,5 +1,6 @@
 import React from "react";
 import "styles/globals.scss";
+import "styles/celebrate.scss";
 import type { AppProps } from "next/app";
 import { AlertProvider } from "store/alertStore";
 import { ModalProvider } from "store/modalStore";
