@@ -29,7 +29,7 @@ const Home: NextPage = () => {
 	});
 
 	return (
-		<div className="min-h-screen grid place-items-center relative">
+		<div className="relative grid min-h-screen place-items-center">
 			<Head>
 				<title>Vinyl - Hangman for audiophiles</title>
 				<meta
@@ -39,21 +39,21 @@ const Home: NextPage = () => {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 
-			<main className="h-full w-full grid place-items-center bg-hero p-8">
-				<div className="space-y-12 grid place-items-center">
+			<main className="grid w-full h-full p-8 place-items-center bg-hero">
+				<div className="grid space-y-12 place-items-center">
 					<h1 className="relative text-[#FF3AF3] text-9xl text-stroke font-heading select-none ">
 						Vinyl
 						<span className="text-[#F7D146] text-stroke absolute -left-2 -top-1">
 							Vinyl
 						</span>
-						<span className="text-white text-stroke absolute -left-4 -top-2">
+						<span className="absolute text-white text-stroke -left-4 -top-2">
 							Vinyl
 						</span>
 					</h1>
 					{/* <p className="text-purple-200">Guess the song ✨</p> */}
-					<div className="grid place-items-center gap-4">
+					<div className="grid gap-4 place-items-center">
 						<div className="relative">
-							<div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+							<div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
 									fill="none"
@@ -75,7 +75,7 @@ const Home: NextPage = () => {
 								type="text"
 								autoComplete="off"
 								autoCorrect="off"
-								className="w-64 bg-slate-900 outline-none text-purple-100 text-sm rounded-lg block p-2.5 px-10 focus:ring-violet-300 focus:ring-opacity-40 ring-0 focus:ring-2"
+								className="w-64 bg-slate-900 outline-none text-purple-100 text-sm rounded-lg block p-2.5 pl-10 pr-16 focus:ring-violet-300 focus:ring-opacity-40 ring-0 focus:ring-2"
 								placeholder="Enter Game Code"
 							/>
 							<button className="absolute inset-y-0 right-0 flex items-center px-4 font-bold text-white bg-indigo-700 rounded-r-lg hover:bg-indigo-600 focus:bg-indigo-800">
@@ -89,7 +89,7 @@ const Home: NextPage = () => {
 								<span className="text-[#F7D146] text-stroke absolute -left-0.5 -top-0.5">
 									or
 								</span>
-								<span className="text-white text-stroke absolute -left-1 -top-1">
+								<span className="absolute text-white text-stroke -left-1 -top-1">
 									or
 								</span>
 							</h1>
@@ -101,8 +101,11 @@ const Home: NextPage = () => {
 					</div>
 				</div>
 			</main>
-			<div className="absolute bottom-0 right-0 text-violet-200 text-opacity-50 py-4 px-8 text-sm select-none">
-				Now Playing: <span>{songName}</span>
+			<div className="absolute bottom-0 right-0 px-8 py-4 text-sm text-opacity-50 select-none text-violet-200">
+				Now Playing:{" "}
+				<span className="cursor-pointer hover:underline">
+					{songName}
+				</span>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					fill="none"
@@ -110,7 +113,7 @@ const Home: NextPage = () => {
 					strokeWidth={1.5}
 					stroke="currentColor"
 					onClick={() => setIsMuted(!isMuted)}
-					className="w-4 h-4 inline ml-1 align-middle cursor-pointer"
+					className="inline w-4 h-4 ml-1 align-middle cursor-pointer"
 				>
 					{isMuted ? (
 						<path
