@@ -9,15 +9,27 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "framer-motion": "^7.3.5",
+    "minidenticons": "^1.0.3",
     "next": "12.3.0",
+    "rc-slider": "^10.0.1",
     "react": "18.2.0",
+    "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "18.2.0",
-    "sass": "^1.54.9"
+    "react-icons": "^4.4.0",
+    "react-identicons": "^1.2.5",
+    "react-modal": "^3.15.1",
+    "react-toastify": "^9.0.8",
+    "sass": "^1.54.9",
+    "unique-names-generator": "^4.7.1",
+    "zustand": "^4.1.1"
   },
   "devDependencies": {
     "@types/node": "18.7.16",
     "@types/react": "18.0.19",
+    "@types/react-copy-to-clipboard": "^5.0.4",
     "@types/react-dom": "18.0.6",
+    "@types/react-modal": "^3.13.1",
     "autoprefixer": "^10.4.9",
     "eslint": "8.23.1",
     "eslint-config-next": "12.3.0",
