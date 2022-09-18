@@ -15,19 +15,19 @@ const LeaderBoardProfile: React.FC<LeaderBoardProfileProps> = ({
 	username,
 }) => {
 	return (
-		<div className="flex justify-between items-center">
-			<div className="flex gap-4  items-center">
-				<div className="bg-white p-3 rounded-full flex justify-center items-center w-9 h-9">
+		<div className="flex items-center justify-between">
+			<div className="flex items-center gap-4">
+				<div className="flex items-center justify-center w-6 h-6 p-3 bg-white rounded-full">
 					<Identicon
 						string={username}
-						size={20}
+						size={11}
 						padding={0}
 						bg="#ffffff"
 					/>
 				</div>
-				<p>{username}</p>
+				<p className="font-bold">{username}</p>
 			</div>
-			<p>{score}</p>
+			<p className="text-sm">{score}</p>
 		</div>
 	);
 };
