@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 const Home: NextPage = () => {
@@ -95,9 +96,11 @@ const Home: NextPage = () => {
 							</h1>
 							<span className="w-12 h-0.5 bg-white opacity-10 rounded-full" />
 						</div>
-						<button className="relative py-2.5 px-5  flex items-center font-bold text-white bg-indigo-600 rounded-lg hover:bg-indigo-500 focus:bg-indigo-700">
-							Create new game
-						</button>
+						<Link href="/join">
+							<button className="relative py-2.5 px-5  flex items-center font-bold text-white bg-indigo-600 rounded-lg hover:bg-indigo-500 focus:bg-indigo-700">
+								Create new game
+							</button>
+						</Link>
 					</div>
 				</div>
 			</main>
