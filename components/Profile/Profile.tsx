@@ -2,6 +2,8 @@ import React from "react";
 import Identicon from "react-identicons";
 import { FiEdit2 } from "react-icons/fi";
 import { IoMdClose } from "react-icons/io";
+import useModal from "store/modalStore";
+import Button from "components/Button/Button";
 
 interface ProfileProps {
 	// change with user id
@@ -15,7 +17,7 @@ interface ProfileProps {
 // admin username
 
 const isAdmin = true;
-const currentUsername = "admin";
+const currentUsername = "mavn";
 
 const Profile: React.FC<ProfileProps> = ({
 	username,
@@ -26,12 +28,46 @@ const Profile: React.FC<ProfileProps> = ({
 		isEditable && (isAdmin || username === currentUsername);
 
 	const showKickButton = isAdmin && isKickable;
+
+	const { showModal } = useModal();
+
 	const onClick = () => {
 		console.log(showEditButton, showKickButton);
 		if (isEditable && username === currentUsername) {
-			// edit modal
+			showModal(
+				<div className="flex flex-col gap-4">
+					<h5 className="font-medium">What should we call you?</h5>
+					<input
+						type="text"
+						autoComplete="off"
+						autoCorrect="off"
+						className="w-full bg-slate-900 outline-none text-purple-100 text-base rounded-lg block p-2.5 px-6 focus:ring-violet-300 focus:ring-opacity-40 ring-0 focus:ring-2"
+						placeholder="Bruno Mars"
+					/>
+					<Button
+						onClick={() => {}}
+						className="w-max py-2 justify-self-end ml-auto text-sm"
+					>
+						Save Changes
+					</Button>
+				</div>
+			);
 		} else if (isKickable) {
-			// kick logic
+			showModal(
+				<div className="flex flex-col gap-4">
+					<h5 className="font-medium">Are You Sure?</h5>
+					<p>
+						The player will be removed from the game. <br />
+						Non incididunt irure anim qui enim pariatur irure.
+					</p>
+					<Button
+						onClick={() => {}}
+						className="w-max py-2 justify-self-end ml-auto text-sm bg-red-800 hover:bg-red-700 focus:bg-red-900"
+					>
+						Kick Player
+					</Button>
+				</div>
+			);
 		}
 	};
 

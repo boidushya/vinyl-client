@@ -8,7 +8,7 @@ interface PlayerGridPanelProps {}
 const PlayerGridPanel: React.FC<PlayerGridPanelProps> = ({}) => {
 	const { success } = useAlert();
 	const usernames = [
-		"admin",
+		"mavn",
 		"Test",
 		"hello",
 		"this is name",
@@ -22,7 +22,7 @@ const PlayerGridPanel: React.FC<PlayerGridPanelProps> = ({}) => {
 		// "lorem ipsum",
 	];
 
-	const admin = "admin";
+	const admin = "mavn";
 
 	return (
 		<div className="bg-[#27273E] rounded-xl flex items-center flex-col gap-9 py-9 h-full">
