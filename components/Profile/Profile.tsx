@@ -46,7 +46,7 @@ const Profile: React.FC<ProfileProps> = ({
 					/>
 					<Button
 						onClick={() => {}}
-						className="w-max py-2 justify-self-end ml-auto text-sm"
+						className="py-2 ml-auto text-sm w-max justify-self-end"
 					>
 						Save Changes
 					</Button>
@@ -62,7 +62,7 @@ const Profile: React.FC<ProfileProps> = ({
 					</p>
 					<Button
 						onClick={() => {}}
-						className="w-max py-2 justify-self-end ml-auto text-sm bg-red-800 hover:bg-red-700 focus:bg-red-900"
+						className="py-2 ml-auto text-sm bg-red-800 w-max justify-self-end hover:bg-red-700 focus:bg-red-900"
 					>
 						Kick Player
 					</Button>
@@ -74,30 +74,48 @@ const Profile: React.FC<ProfileProps> = ({
 	return (
 		<div>
 			<div
-				className={`flex flex-col gap-3 items-center 
-				${showKickButton && "hover:text-red-600 hover:opacity-80"} 
-				${showEditButton && "hover:text-green-500 hover:opacity-80"} 
+				className={`flex flex-col gap-3 items-center cursor-pointer text-violet-100 group
+				${showKickButton && "hover:text-red-200"}
+				${showEditButton && "hover:text-green-200"}
 			}`}
 				onClick={onClick}
 			>
-				<div className="bg-white p-3 rounded-full flex justify-center items-center w-24 h-24">
+				<div className="relative flex items-center justify-center w-20 h-20 p-1 rounded-full bg-violet-100">
 					<Identicon
 						string={username}
-						size={52}
+						size={36}
 						padding={0}
-						bg="#ffffff"
+						bg="rgb(237 233 254)"
 					/>
+					{/* <div className="absolute hidden w-full h-full bg-red-900 rounded-full bg-opacity-80 place-items-center group-hover:grid"></div> */}
+					<div
+						className={`absolute hidden w-full h-full ${
+							showKickButton ? `bg-red-900` : ``
+						} ${
+							showEditButton ? `bg-green-900` : ``
+						} rounded-full bg-opacity-80 place-items-center group-hover:grid`}
+					>
+						{showKickButton && (
+							<IoMdClose
+								size={32}
+								className="mt-0.5"
+								strokeWidth={12}
+							/>
+						)}
+						{showEditButton && <FiEdit2 size={24} />}
+					</div>
 				</div>
 
-				<div className="flex gap-1 items-center justify-center">
+				<div className="relative flex items-center justify-center gap-1">
 					<div>
-						<p>{username}</p>
+						<p
+							className={`font-semibold ${
+								showEditButton ? `text-green-300` : ``
+							}`}
+						>
+							{username}
+						</p>
 					</div>
-
-					<div>
-						{showKickButton && <IoMdClose className="pt-1" />}
-					</div>
-					<div>{showEditButton && <FiEdit2 />}</div>
 				</div>
 			</div>
 		</div>

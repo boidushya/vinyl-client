@@ -28,9 +28,9 @@ const users = [
 
 const LeaderBoardPanel: React.FC<LeaderBoardPanelProps> = ({}) => {
 	return (
-		<div className="flex flex-col gap-5 py-9 h-full">
-			<h2 className="text-xl font-semibold">Leader Board</h2>
-			<div className="flex gap-4 flex-col">
+		<div className="flex flex-col h-full gap-5 py-9">
+			<h2 className="text-xl font-semibold">Leaderboard</h2>
+			<div className="flex flex-col gap-4">
 				{users.map(user => (
 					<LeaderBoardProfile
 						key={user.id}

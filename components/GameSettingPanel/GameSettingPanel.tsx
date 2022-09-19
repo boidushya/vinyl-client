@@ -22,15 +22,27 @@ const GameSettingPanel: React.FC<GameSettingPanelProps> = () => {
 	return (
 		<div className="flex flex-col h-full gap-5 pt-9">
 			<h2 className="text-xl font-semibold">Settings</h2>
-			<div className="flex items-center justify-center p-4">
+			<div className="flex items-center justify-center p-4 ">
 				<Profile username={username} isEditable />
 			</div>
 			<div>
-				<h2 className="text-lg font-medium">
-					No. Of Rounds ({rounds})
-				</h2>
+				<h2 className="text-lg font-medium"># of rounds ({rounds})</h2>
 				<div className="pt-2 mx-1">
 					<Slider
+						handleStyle={{
+							background: "white",
+						}}
+						dotStyle={{
+							borderColor: "#abaeb4",
+							background: "#abaeb4",
+						}}
+						activeDotStyle={{
+							borderColor: "#c5c9cd",
+							background: "#c5c9cd",
+						}}
+						railStyle={{
+							background: "rgb(100 116 139)",
+						}}
 						min={5}
 						max={25}
 						defaultValue={10}
