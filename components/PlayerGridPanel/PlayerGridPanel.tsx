@@ -48,7 +48,7 @@ const PlayerGridPanel: React.FC<PlayerGridPanelProps> = ({}) => {
 				})}
 			</div>
 			<div className="w-full mt-auto mb-1 text-center px-9 justify-self-end">
-				<h3>Invite Friends</h3>
+				<h2 className="text-sm font-medium">Invite Friends</h2>
 				<CopyToClipboard
 					text="https://www.npmjs.com/"
 					onCopy={() => {
