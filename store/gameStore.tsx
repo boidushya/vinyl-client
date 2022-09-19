@@ -36,31 +36,27 @@ const useGameStore = create<Game>((set, get) => ({
 	start: async () => {
 		try {
 			const tracksHref = get().playlist?.href;
-			if (tracksHref) {
-				const response = await axios.get(tracksHref, {
-					headers: {
-						Authorization: `Bearer ${
-							useSpotifyStore.getState().accessToken
-						}`,
-					},
-				});
+			const response = await axios.get(tracksHref!, {
+				headers: {
+					Authorization: `Bearer ${
+						useSpotifyStore.getState().accessToken
+					}`,
+				},
+			});
 
-				const roomId = get().roomId;
-				const rounds = get().rounds;
-				const data = response.data;
-				const track_ids = data.items.map(
-					(item: { track: { id: string } }) => {
-						return item.track.id;
-					}
-				);
-				console.log({
-					roomId,
-					rounds,
-					track_ids,
-				});
-			} else {
-				return false;
-			}
+			const roomId = get().roomId;
+			const rounds = get().rounds;
+			const data = response.data;
+			const track_ids = data.items.map(
+				(item: { track: { id: string } }) => {
+					return item.track.id;
+				}
+			);
+			console.log({
+				roomId,
+				rounds,
+				track_ids,
+			});
 		} catch (error) {
 			//errpr
 		}
