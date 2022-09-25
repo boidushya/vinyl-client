@@ -2,12 +2,16 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-// import { dropConfetti } from "components/Celebrate/Celebrate";
+import { dropConfetti } from "components/Celebrate/Celebrate";
+import socketIOClient from "socket.io-client";
+import {nanoid} from "nanoid";
+import { uniqueNamesGenerator, Config, names } from 'unique-names-generator';
 
 const Home: NextPage = () => {
 	const songName = "Jenny - Studio Killers";
 	const [isMuted, setIsMuted] = useState(false);
 	const [isTyping, setIsTyping] = useState(false);
+	const [roomVal,setRoomVal] = useState("");
 
 	const keyboardMap: { key: string; action: () => void }[] = [
 		{
@@ -29,6 +33,48 @@ const Home: NextPage = () => {
 		window.addEventListener("keydown", keyboardEvents);
 		return () => window.removeEventListener("keydown", keyboardEvents);
 	});
+
+	const socket = socketIOClient("http://localhost:5000");
+
+	const config: Config = {
+		dictionaries: [names]
+	}
+	  
+	const characterName: string = uniqueNamesGenerator(config); 
+	
+	console.log(characterName,"char");
+
+	const joinRoom = (e:any) => {
+		e.preventDefault();
+		console.log("in join");
+		socket.emit("joinRoom",{
+			username:characterName,
+			room:roomVal
+		})	
+
+		socket.on("message",(data) => {
+			console.log(data,"Data from message event");
+		})
+
+		socket.on("roomUsers",(data) => {
+			console.log(data);
+		})
+	}
+
+	const createNewRoom = (e:any) => {
+		e.preventDefault();5
+		console.log(nanoid(6),characterName);
+
+		socket.emit("joinRoom",{
+			username:characterName,
+			room:nanoid(6)
+		})	
+
+		socket.on("message",(data) => {
+			console.log(data,"Data from message event");
+		})
+	}
+
 
 	return (
 		<div className="relative grid min-h-screen place-items-center">
@@ -72,15 +118,18 @@ const Home: NextPage = () => {
 								</svg>
 							</div>
 							<input
+								onChange={(e) => setRoomVal(e.target.value)}
 								onFocus={() => setIsTyping(true)}
 								onBlur={() => setIsTyping(false)}
+								value={roomVal}
 								type="text"
 								autoComplete="off"
 								autoCorrect="off"
 								className="w-64 bg-slate-900 outline-none text-purple-100 text-sm rounded-lg block p-2.5 pl-10 pr-16 focus:ring-violet-300 focus:ring-opacity-40 ring-0 focus:ring-2"
 								placeholder="Enter Game Code"
 							/>
-							<button className="absolute inset-y-0 right-0 flex items-center px-4 font-bold text-white bg-indigo-700 rounded-r-lg hover:bg-indigo-600 focus:bg-indigo-800">
+							<button className="absolute inset-y-0 right-0 flex items-center px-4 font-bold text-white bg-indigo-700 rounded-r-lg hover:bg-indigo-600 focus:bg-indigo-800"
+								onClick={(e) => joinRoom(e)}>
 								Join
 							</button>
 						</div>
@@ -97,17 +146,18 @@ const Home: NextPage = () => {
 							</h1>
 							<span className="w-12 h-0.5 bg-white opacity-10 rounded-full" />
 						</div>
-						<Link href="/join">
-							<button className="relative py-2.5 px-5  flex items-center font-bold text-white bg-indigo-600 rounded-lg hover:bg-indigo-500 focus:bg-indigo-700">
+						{/* <Link href="/join"> */}
+							<button className="relative py-2.5 px-5  flex items-center font-bold text-white bg-indigo-600 rounded-lg hover:bg-indigo-500 focus:bg-indigo-700"
+							onClick={(e) => createNewRoom(e)}>
 								Create new game
 							</button>
-						</Link>
+						{/* </Link> */}
 					</div>
 				</div>
 			</main>
 			<div
 				className="absolute bottom-0 right-0 px-8 py-4 text-sm text-opacity-50 select-none text-violet-200"
-				// onClick={() => dropConfetti()}
+				onClick={() => dropConfetti()}
 			>
 				Now Playing:{" "}
 				<span className="cursor-pointer hover:underline">
