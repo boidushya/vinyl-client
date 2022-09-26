@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "axios": "^0.27.2",
     "framer-motion": "^7.3.5",
     "minidenticons": "^1.0.3",
     "nanoid": "^4.0.0",

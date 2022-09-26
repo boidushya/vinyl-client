@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import Playlist from "components/Playlist/Playlist";
 import Button from "components/Button/Button";
 import useModal from "store/modalStore";
+import {
+	getAccessTokenFromRedirectUrl,
+	spotifyAuthorize,
+} from "store/spotifyAuthStore";
 
 interface PlaylistSelectorPanelProps {}
 
@@ -19,6 +24,18 @@ const playlists = [
 ];
 
 const PlaylistSelectorPanel: React.FC<PlaylistSelectorPanelProps> = ({}) => {
+	const [hash, setHash] = useState<string>();
+	const { asPath } = useRouter();
+
+	useEffect(() => {
+		console.log(asPath);
+		const params = asPath.split("#")[1];
+		if (params) {
+			const accessToken = getAccessTokenFromRedirectUrl(params);
+			setHash(accessToken);
+		}
+	}, [asPath]);
+
 	const startGame = () => {
 		showModal(
 			<div className="flex flex-col gap-6">
@@ -30,7 +47,9 @@ const PlaylistSelectorPanel: React.FC<PlaylistSelectorPanelProps> = ({}) => {
 					agreements to comply.
 				</p>
 				<Button
-					onClick={() => {}}
+					onClick={() => {
+						spotifyAuthorize();
+					}}
 					className="w-full py-2 ml-auto text-sm justify-self-end"
 				>
 					Login with Spotify
@@ -54,6 +73,7 @@ const PlaylistSelectorPanel: React.FC<PlaylistSelectorPanelProps> = ({}) => {
 					/>
 				))}
 			</div>
+			<div>{JSON.stringify(hash)}</div>
 			<div className="flex flex-col gap-4 mt-auto mb-10 text-center justify-self-end">
 				<p>Play with your custom playlist</p>
 				<Button onClick={startGame} className="w-full">
