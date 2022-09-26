@@ -3,25 +3,21 @@ import Image from "next/image";
 
 interface PlaylistProps {
 	id: string;
-	playlistName: string;
-	playlistCover: string;
+	name: string;
+	imageUrl: string;
 }
 
 // TODO
 // - setPlaylist on click
 
-const Playlist: React.FC<PlaylistProps> = ({
-	id,
-	playlistName,
-	playlistCover,
-}) => {
+const Playlist: React.FC<PlaylistProps> = ({ id, name, imageUrl }) => {
 	return (
-		<div className="flex gap-2 items-center bg-[#27273E] overflow-hidden rounded-lg h-24 hover:bg-[#333351]">
-			<div className="pt-2">
-				<Image src={playlistCover} alt="" width={96} height={96} />
+		<div className="flex gap-4 flex-col items-center overflow-hidden rounded-lg">
+			<div className="pt-2 h-24 w-24 rounded-sm overflow-hidden">
+				<Image src={imageUrl} alt="" width={96} height={96} />
 			</div>
 
-			<div className="px-4 ">{playlistName}</div>
+			<div className="px-4 text-sm text-center">{name}</div>
 		</div>
 	);
 };
