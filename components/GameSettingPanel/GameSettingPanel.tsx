@@ -4,18 +4,18 @@ import "rc-slider/assets/index.css";
 import Profile from "components/Profile/Profile";
 import Button from "components/Button/Button";
 import useUserStore from "store/userStore";
+import useGameStore from "store/gameStore";
 
 interface GameSettingPanelProps {}
 
 const GameSettingPanel: React.FC<GameSettingPanelProps> = () => {
-	const [rounds, setRounds] = useState<number>(10);
-
 	const handleRoundChange = (value: number | number[]) => {
 		if (Array.isArray(value)) setRounds(value[0]);
 		else setRounds(value);
 	};
 
 	const username = useUserStore(state => state.username);
+	const { rounds, setRounds } = useGameStore();
 
 	const startGame = () => {};
 
