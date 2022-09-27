@@ -1,23 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
+import useGameStore from "store/gameStore";
+import { Playlist } from "types/Playlist";
 
 interface PlaylistProps {
-	id: string;
-	name: string;
-	imageUrl: string;
+	playlist: Playlist;
 }
 
-// TODO
-// - setPlaylist on click
+const Playlist: React.FC<PlaylistProps> = ({ playlist }) => {
+	const { setPlaylist, playlist: gamePlaylist } = useGameStore();
+	const isSelected = gamePlaylist?.id == playlist.id;
 
-const Playlist: React.FC<PlaylistProps> = ({ id, name, imageUrl }) => {
 	return (
-		<div className="flex gap-4 flex-col items-center overflow-hidden rounded-lg">
-			<div className="pt-2 h-24 w-24 rounded-sm overflow-hidden">
-				<Image src={imageUrl} alt="" width={96} height={96} />
+		<div
+			className={`flex gap-3 flex-col items-center overflow-hidden rounded-lg cursor-pointer ${
+				isSelected && "bg-[#343459] border-[#4d4d79] border-4"
+			}`}
+			onClick={() => {
+				setPlaylist(playlist);
+			}}
+		>
+			<div className={`h-24 w-24 overflow-hidden rounded-t-md `}>
+				<Image src={playlist.imageUrl} alt="" width={96} height={96} />
 			</div>
 
-			<div className="px-4 text-sm text-center">{name}</div>
+			<div className={`px-2 pb-3 text-sm text-center rounded-b-md `}>
+				{playlist.name}
+			</div>
 		</div>
 	);
 };

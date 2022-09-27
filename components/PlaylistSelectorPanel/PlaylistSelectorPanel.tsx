@@ -22,6 +22,7 @@ const PlaylistSelectorPanel: React.FC<PlaylistSelectorPanelProps> = ({}) => {
 		setLoading,
 		setConnected,
 	} = useSpotifyStore();
+	const { showModal } = useModal();
 
 	useEffect(() => {
 		const params = asPath.split("#")[1];
@@ -57,8 +58,6 @@ const PlaylistSelectorPanel: React.FC<PlaylistSelectorPanelProps> = ({}) => {
 		);
 	};
 
-	const { showModal } = useModal();
-
 	return (
 		<div className="flex flex-col h-full gap-5 pt-9">
 			<h2 className="pb-4 text-xl font-semibold">Playlist</h2>
@@ -70,12 +69,7 @@ const PlaylistSelectorPanel: React.FC<PlaylistSelectorPanelProps> = ({}) => {
 				<div className="h-full overflow-y-scroll overflow-x-hidden pr-4">
 					<div className="grid grid-cols-3 gap-4">
 						{playlists.map(playlist => (
-							<Playlist
-								id={playlist.id}
-								key={playlist.id}
-								imageUrl={playlist.imageUrl}
-								name={playlist.name}
-							/>
+							<Playlist playlist={playlist} key={playlist.id} />
 						))}
 					</div>
 				</div>
