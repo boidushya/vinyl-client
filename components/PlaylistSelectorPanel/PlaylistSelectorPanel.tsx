@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { ScaleLoader } from "react-spinners";
 import Playlist from "components/Playlist/Playlist";
 import Button from "components/Button/Button";
 import useModal from "store/modalStore";
@@ -10,52 +11,29 @@ import useSpotifyStore, {
 
 interface PlaylistSelectorPanelProps {}
 
-// const playlists = [
-// 	{
-// 		id: "fadf",
-// 		name: "Playlist one",
-// 		href: "https://fadsfadfa.cc",
-// 		imageUrl: "https://picsum.photos/200",
-// 	},
-// 	{
-// 		id: "fssa",
-// 		name: "Playlist two",
-// 		href: "https://fadsfadfa.cc",
-// 		imageUrl: "https://picsum.photos/200",
-// 	},
-// 	{
-// 		id: "fadfa",
-// 		name: "Playlist two",
-// 		href: "https://fadsfadfa.cc",
-// 		imageUrl: "https://picsum.photos/200",
-// 	},
-
-// 	{
-// 		id: "afeae",
-// 		name: "Playlist two",
-// 		href: "https://fadsfadfa.cc",
-// 		imageUrl: "https://picsum.photos/200",
-// 	},
-// 	{
-// 		id: "ffascssa",
-// 		name: "Playlist two",
-// 		href: "https://fadsfadfa.cc",
-// 		imageUrl: "https://picsum.photos/200",
-// 	},
-// ];
-
 const PlaylistSelectorPanel: React.FC<PlaylistSelectorPanelProps> = ({}) => {
 	const { asPath } = useRouter();
-	const { getPlaylists, setAccessToken, accessToken, playlists } =
-		useSpotifyStore();
+	const {
+		getPlaylists,
+		setAccessToken,
+		isConnected,
+		playlists,
+		loading,
+		setLoading,
+		setConnected,
+	} = useSpotifyStore();
 
 	useEffect(() => {
 		const params = asPath.split("#")[1];
 		if (params) {
+			setLoading(true);
 			const accessToken = getAccessTokenFromRedirectUrl(params);
 			setAccessToken(accessToken);
+			getPlaylists();
+			setLoading(false);
+			setConnected(true);
 		}
-	}, [asPath, setAccessToken]);
+	}, [asPath, getPlaylists, setAccessToken, setConnected, setLoading]);
 
 	const startGame = () => {
 		showModal(
@@ -84,25 +62,32 @@ const PlaylistSelectorPanel: React.FC<PlaylistSelectorPanelProps> = ({}) => {
 	return (
 		<div className="flex flex-col h-full gap-5 pt-9">
 			<h2 className="pb-4 text-xl font-semibold">Playlist</h2>
-			<div className="h-4/5 overflow-y-scroll overflow-x-hidden pr-4">
-				<div className="grid grid-cols-3 gap-4">
-					{playlists.map(playlist => (
-						<Playlist
-							id={playlist.id}
-							key={playlist.id}
-							imageUrl={playlist.imageUrl}
-							name={playlist.name}
-						/>
-					))}
+			{loading ? (
+				<div className="h-full flex justify-center items-center w-full">
+					<ScaleLoader color="#ffffff" loading={loading} />
 				</div>
-			</div>
+			) : (
+				<div className="h-full overflow-y-scroll overflow-x-hidden pr-4">
+					<div className="grid grid-cols-3 gap-4">
+						{playlists.map(playlist => (
+							<Playlist
+								id={playlist.id}
+								key={playlist.id}
+								imageUrl={playlist.imageUrl}
+								name={playlist.name}
+							/>
+						))}
+					</div>
+				</div>
+			)}
 
 			{/* <div>
 				<pre>{JSON.stringify(accessToken, null, 2)}</pre>
 			</div> */}
-			<div className="flex flex-col gap-4 mt-auto mb-10 text-center justify-self-end">
-				<p>Play with your custom playlist</p>
-				{/* <Button
+			{!isConnected && (
+				<div className="flex flex-col gap-4 mt-auto mb-10 text-center justify-self-end">
+					<p>Play with your custom playlist</p>
+					{/* <Button
 					onClick={() => {
 						getPlaylists();
 					}}
@@ -110,10 +95,11 @@ const PlaylistSelectorPanel: React.FC<PlaylistSelectorPanelProps> = ({}) => {
 				>
 					Fetch Playlists
 				</Button> */}
-				<Button onClick={startGame} className="w-full">
-					Connect with Spotify
-				</Button>
-			</div>
+					<Button onClick={startGame} className="w-full">
+						Connect with Spotify
+					</Button>
+				</div>
+			)}
 		</div>
 	);
 };

@@ -28,18 +28,23 @@ export const getAccessTokenFromRedirectUrl = (url: string) => {
 };
 
 type Spotify = {
+	isConnected: boolean;
 	loading: boolean;
 	accessToken: undefined | string;
 	playlists: Playlist[];
 	setLoading: (loading: boolean) => void;
+	setConnected: (isConnected: boolean) => void;
 	getPlaylists: () => void;
 	setAccessToken: (accessToken: string) => void;
 };
 
 const useSpotifyStore = create<Spotify>((set, get) => ({
+	isConnected: false,
 	accessToken: undefined,
 	playlists: [],
 	loading: false,
+	setConnected: (isConnected: boolean) =>
+		set((state: Spotify) => ({ ...state, isConnected: isConnected })),
 	setLoading: (loading: boolean) =>
 		set((state: Spotify) => ({ ...state, loading: loading })),
 	getPlaylists: async () => {
@@ -62,7 +67,7 @@ const useSpotifyStore = create<Spotify>((set, get) => ({
 			set({ playlists: playlists });
 			console.log(playlists);
 		} catch (error) {
-			//success
+			//errpr
 		}
 	},
 	setAccessToken: (accessToken: string) => {
