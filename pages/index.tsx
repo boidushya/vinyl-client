@@ -75,9 +75,7 @@ const Home: NextPage = () => {
 		socket.emit("joinRoom",{
 			username:characterName,
 			room:nanoid(6)
-		})	
-
-	
+		})		
 
 		router.push("/game");
 		 

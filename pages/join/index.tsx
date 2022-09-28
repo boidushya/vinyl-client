@@ -10,6 +10,7 @@ import PlayerGridPanel from "components/PlayerGridPanel/PlayerGridPanel";
 import PlaylistSelectorPanel from "components/PlaylistSelectorPanel/PlaylistSelectorPanel";
 
 const Join: NextPage = () => {
+
 	return (
 		<div className="bg-template">
 			<Head>
