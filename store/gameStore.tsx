@@ -9,7 +9,10 @@ type Game = {
 	setRounds: (round: number) => void;
 	setPlaylist: (playlist: Playlist) => void;
 	setTracks: (tracks: Track[]) => void;
+	start: () => void;
 };
+
+const initialize = () => {};
 
 const useGameStore = create<Game>((set, get) => ({
 	rounds: 10,
@@ -24,6 +27,7 @@ const useGameStore = create<Game>((set, get) => ({
 	setTracks: (tracks: Track[]) => {
 		set((state: Game) => ({ ...state, tracks: tracks }));
 	},
+	start: async () => {},
 }));
 
 export default useGameStore;
