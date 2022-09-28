@@ -15,13 +15,13 @@ const ChatInput: React.FC<ChatInputProps> = () => {
 	const onSendButtonClickHandler=(e:any)=>{
 		e.preventDefault();
 		socket.emit("chatMessage",message);
-		console.log("sending a message")
+		setMessage("");
 	}
 	
 	return (
 		<div>
 			<div className="flex">
-				<input className="bg-[#404065] text-[#E5D4FF] outline-none w-full py-3 px-6 rounded-bl-lg"  onChange={(e)=>setMessage(e.target.value)}/>
+				<input className="bg-[#404065] text-[#E5D4FF] outline-none w-full py-3 px-6 rounded-bl-lg"  onChange={(e)=>setMessage(e.target.value)} value={message}/>
 				<Button
 					className="rounded-none rounded-br-lg"
 					onClick={(e:any) => onSendButtonClickHandler(e)}
