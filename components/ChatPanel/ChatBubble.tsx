@@ -1,7 +1,7 @@
 import React from "react";
 
 interface ChatBubbleProps {
-	id: string;
+
 	username: string;
 	comment: string;
 }
