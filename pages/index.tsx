@@ -66,6 +66,8 @@ const Home: NextPage = () => {
 		socket.on("roomUsers",(data:any) => {
 			console.log(data);
 		})
+
+		router.push("/game");
 	}
 
 	const createNewRoom = (e:any) => {
@@ -78,7 +80,7 @@ const Home: NextPage = () => {
 		})		
 
 		router.push("/game");
-		 
+		
 	}
 
 

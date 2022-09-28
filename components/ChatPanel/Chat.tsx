@@ -5,44 +5,57 @@ import {socket} from "../../utils/webSocket";
 
 interface ChatProps {}
 
-const chats = [
-	{
-		id: "Sfsd",
-		username: "mavn",
-		comment: "testesag gawgaweg gaeeg age gaeg",
-	},
-	{
-		id: "fasd",
-		username: "mavn",
-		comment: "testesag gawgaweg gaeeg age gaeg",
-	},
+interface Ichat{
+	text:string,
+	time:string,
+	username:string
+}
 
-	{
-		id: "faf",
-		username: "mavn",
-		comment: "testesag gawgaweg gaeeg age gaeg",
-	},
-	{
-		id: "fa",
-		username: "mavn",
-		comment: "testesag gawgaweg gaeeg age gaeg fasdfa dfasdfsdfdfad",
-	},
-];
+// const chats = [
+// 	{
+// 		id: "Sfsd",
+// 		username: "mavn",
+// 		comment: "testesag gawgaweg gaeeg age gaeg",
+// 	},
+// 	{
+// 		id: "fasd",
+// 		username: "mavn",
+// 		comment: "testesag gawgaweg gaeeg age gaeg",
+// 	},
+
+// 	{
+// 		id: "faf",
+// 		username: "mavn",
+// 		comment: "testesag gawgaweg gaeeg age gaeg",
+// 	},
+// 	{
+// 		id: "fa",
+// 		username: "mavn",
+// 		comment: "testesag gawgaweg gaeeg age gaeg fasdfa dfasdfsdfdfad",
+// 	},
+// ];
 
 const Chat: React.FC<ChatProps> = () => {
 	
+	const [chats,setChats]=useState<Ichat[]>([]);
+	
 	socket.on("message",(data:any)=>{
 		console.log(data,"Data from chat window")
+		setChats([...chats,data]);
+	})
+
+	socket.on("getUsers",(data:any) => {
+		console.log(data,"users data");
 	})
 
 	return (
+		chats&&
 		<div className="grow h-full flex flex-col justify-end">
-			{chats.map(chat => (
+			{chats.map((chat,idx) => (
 				<ChatBubble
-					comment={chat.comment}
+					comment={chat.text}
 					username={chat.username}
-					id={chat.id}
-					key={chat.id}
+					key={idx}
 				/>
 			))}
 		</div>

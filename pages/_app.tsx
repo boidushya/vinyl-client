@@ -9,8 +9,6 @@ import socketIOClient from "socket.io-client"
 
 function MyApp({ Component, pageProps }: AppProps) {
 
-		
-
 	return (
 		<AlertProvider>
 			<ModalProvider>
