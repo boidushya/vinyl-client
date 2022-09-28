@@ -4,20 +4,23 @@ import "rc-slider/assets/index.css";
 import Profile from "components/Profile/Profile";
 import Button from "components/Button/Button";
 import useUserStore from "store/userStore";
+import useGameStore from "store/gameStore";
 
 interface GameSettingPanelProps {}
 
 const GameSettingPanel: React.FC<GameSettingPanelProps> = () => {
-	const [rounds, setRounds] = useState<number>(10);
+	const username = useUserStore(state => state.username);
+	const { rounds, setRounds } = useGameStore();
+	const [gameRound, setGameRound] = useState(rounds);
 
 	const handleRoundChange = (value: number | number[]) => {
-		if (Array.isArray(value)) setRounds(value[0]);
-		else setRounds(value);
+		if (Array.isArray(value)) setGameRound(value[0]);
+		else setGameRound(value);
 	};
 
-	const username = useUserStore(state => state.username);
-
-	const startGame = () => {};
+	const startGame = () => {
+		setRounds(rounds);
+	};
 
 	return (
 		<div className="flex flex-col h-full gap-5 pt-9">
@@ -27,7 +30,7 @@ const GameSettingPanel: React.FC<GameSettingPanelProps> = () => {
 			</div>
 			<div>
 				<h2 className="text-lg font-medium">
-					No. Of Rounds ({rounds})
+					No. Of Rounds ({gameRound})
 				</h2>
 				<div className="pt-2 mx-1">
 					<Slider

@@ -110,3 +110,26 @@ a {
 .rc-slider-track {
 	background-color: #4f46e5 !important;
 }
+
+
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+	border-radius: 8;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #13131a;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #4f46e5;
+  border-radius: "8px";
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(37, 40, 74);
+}
