@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { ChatBubble } from "./ChatBubble";
+import socketIOClient from "socket.io-client"
+import {socket} from "../../utils/webSocket";
 
 interface ChatProps {}
 
@@ -28,6 +30,18 @@ const chats = [
 ];
 
 const Chat: React.FC<ChatProps> = () => {
+
+	
+	socket.on("message",(data:any)=>{
+		console.log(data,"Data from chat window")
+		
+	})
+
+	socket.on("getUsers",(data:any) => {
+		console.log(data,"users data");
+	})
+
+
 	return (
 		<div className="grow h-full flex flex-col justify-end">
 			{chats.map(chat => (

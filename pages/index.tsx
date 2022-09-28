@@ -6,12 +6,17 @@ import { dropConfetti } from "components/Celebrate/Celebrate";
 import socketIOClient from "socket.io-client";
 import {nanoid} from "nanoid";
 import { uniqueNamesGenerator, Config, names } from 'unique-names-generator';
+import { useSocketInstanceStore } from "store/userStore";
+import { socket } from "utils/webSocket";
+import { useRouter } from 'next/router'
 
 const Home: NextPage = () => {
 	const songName = "Jenny - Studio Killers";
 	const [isMuted, setIsMuted] = useState(false);
 	const [isTyping, setIsTyping] = useState(false);
 	const [roomVal,setRoomVal] = useState("");
+
+	const router = useRouter();
 
 	const keyboardMap: { key: string; action: () => void }[] = [
 		{
@@ -34,7 +39,9 @@ const Home: NextPage = () => {
 		return () => window.removeEventListener("keydown", keyboardEvents);
 	});
 
-	const socket = socketIOClient("http://localhost:5000");
+	//const socket = socketIOClient("http://localhost:5000");
+
+	//const socket=useSocketInstanceStore((state:any)=>state.socket)
 
 	const config: Config = {
 		dictionaries: [names]
@@ -52,11 +59,11 @@ const Home: NextPage = () => {
 			room:roomVal
 		})	
 
-		socket.on("message",(data) => {
-			console.log(data,"Data from message event");
-		})
+		// socket.on("message",(data:any) => {
+		// 	console.log(data,"Data from message event");
+		// })
 
-		socket.on("roomUsers",(data) => {
+		socket.on("roomUsers",(data:any) => {
 			console.log(data);
 		})
 	}
@@ -70,9 +77,10 @@ const Home: NextPage = () => {
 			room:nanoid(6)
 		})	
 
-		socket.on("message",(data) => {
-			console.log(data,"Data from message event");
-		})
+	
+
+		router.push("/game");
+		 
 	}
 
 
