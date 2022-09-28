@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
+
 import React, { useState } from "react";
 import Image from "next/image";
 import useGameStore from "store/gameStore";
@@ -21,7 +23,7 @@ const Playlist: React.FC<PlaylistProps> = ({ playlist }) => {
 			}}
 		>
 			<div className={`h-24 w-24 overflow-hidden rounded-t-md `}>
-				<Image src={playlist.imageUrl} alt="" width={96} height={96} />
+				<img src={playlist.imageUrl} alt="" width={96} height={96} />
 			</div>
 
 			<div className={`px-2 pb-3 text-sm text-center rounded-b-md `}>

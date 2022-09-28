@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import Profile from "components/Profile/Profile";
@@ -9,8 +10,10 @@ import useGameStore from "store/gameStore";
 interface GameSettingPanelProps {}
 
 const GameSettingPanel: React.FC<GameSettingPanelProps> = () => {
+	const router = useRouter();
 	const username = useUserStore(state => state.username);
-	const { rounds, setRounds } = useGameStore();
+	const playlist = useGameStore(state => state.playlist);
+	const { rounds, setRounds, start } = useGameStore();
 	const [gameRound, setGameRound] = useState(rounds);
 
 	const handleRoundChange = (value: number | number[]) => {
@@ -20,6 +23,8 @@ const GameSettingPanel: React.FC<GameSettingPanelProps> = () => {
 
 	const startGame = () => {
 		setRounds(rounds);
+		start();
+		router.push("/game");
 	};
 
 	return (
@@ -44,7 +49,13 @@ const GameSettingPanel: React.FC<GameSettingPanelProps> = () => {
 				</div>
 			</div>
 			<div className="mt-auto mb-10 justify-self-end">
-				<Button onClick={startGame} className="w-full">
+				<Button
+					onClick={startGame}
+					className={`w-full ${
+						!playlist && "bg-slate-400 hover:bg-slate-400"
+					}`}
+					disabled={playlist === undefined}
+				>
 					Start Game
 				</Button>
 			</div>

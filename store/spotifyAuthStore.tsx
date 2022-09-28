@@ -11,7 +11,7 @@ const SCOPES = ["playlist-read-private", "playlist-read-collaborative"];
 const SCOPES_URL_PARAMS = SCOPES.join(SCOPE_DELIMITER);
 
 export const spotifyAuthorize = () => {
-	const redirectUrl = `${SPOTIFY_AUTH_BASE_URL}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URL}&scope=${SCOPES_URL_PARAMS}&response_type=token&show_dialog=true`;
+	const redirectUrl = `${SPOTIFY_AUTH_BASE_URL}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URL}&scope=${SCOPES_URL_PARAMS}&response_type=token&show_dialog=false`;
 
 	Router.push(redirectUrl);
 };

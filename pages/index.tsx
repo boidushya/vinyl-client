@@ -1,20 +1,23 @@
+import React, { useEffect, useState } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import { dropConfetti } from "components/Celebrate/Celebrate";
+import { useRouter } from "next/router";
+import { nanoid } from "nanoid";
+import { uniqueNamesGenerator, Config, names } from "unique-names-generator";
+
 import socketIOClient from "socket.io-client";
-import {nanoid} from "nanoid";
-import { uniqueNamesGenerator, Config, names } from 'unique-names-generator';
-import { useSocketInstanceStore } from "store/userStore";
+import Link from "next/link";
+
+import { dropConfetti } from "components/Celebrate/Celebrate";
 import { socket } from "utils/webSocket";
-import { useRouter } from 'next/router'
+import useGameStore from "store/gameStore";
 
 const Home: NextPage = () => {
 	const songName = "Jenny - Studio Killers";
+	const { setRoomId } = useGameStore();
 	const [isMuted, setIsMuted] = useState(false);
 	const [isTyping, setIsTyping] = useState(false);
-	const [roomVal,setRoomVal] = useState("");
+	const [roomVal, setRoomVal] = useState("");
 
 	const router = useRouter();
 
@@ -44,45 +47,46 @@ const Home: NextPage = () => {
 	//const socket=useSocketInstanceStore((state:any)=>state.socket)
 
 	const config: Config = {
-		dictionaries: [names]
-	}
-	  
-	const characterName: string = uniqueNamesGenerator(config); 
-	
-	console.log(characterName,"char");
+		dictionaries: [names],
+	};
 
-	const joinRoom = (e:any) => {
+	const characterName: string = uniqueNamesGenerator(config);
+
+	console.log(characterName, "char");
+
+	const joinRoom = (e: any) => {
 		e.preventDefault();
 		console.log("in join");
-		socket.emit("joinRoom",{
-			username:characterName,
-			room:roomVal
-		})	
+		socket.emit("joinRoom", {
+			username: characterName,
+			room: roomVal,
+		});
 
 		// socket.on("message",(data:any) => {
 		// 	console.log(data,"Data from message event");
 		// })
 
-		socket.on("roomUsers",(data:any) => {
+		socket.on("roomUsers", (data: any) => {
 			console.log(data);
 		})
 
 		router.push("/game");
 	}
 
-	const createNewRoom = (e:any) => {
-		e.preventDefault();5
-		console.log(nanoid(6),characterName);
+	const createNewRoom = (e: any) => {
+		e.preventDefault();
+		5;
+		console.log(nanoid(6), characterName);
 
-		socket.emit("joinRoom",{
-			username:characterName,
-			room:nanoid(6)
-		})		
+		const roomId = nanoid(6);
+		socket.emit("joinRoom", {
+			username: characterName,
+			room: roomId,
+		});
 
-		router.push("/game");
-		
-	}
-
+		setRoomId(roomId);
+		router.push("/join");
+	};
 
 	return (
 		<div className="relative grid min-h-screen place-items-center">
@@ -126,7 +130,7 @@ const Home: NextPage = () => {
 								</svg>
 							</div>
 							<input
-								onChange={(e) => setRoomVal(e.target.value)}
+								onChange={e => setRoomVal(e.target.value)}
 								onFocus={() => setIsTyping(true)}
 								onBlur={() => setIsTyping(false)}
 								value={roomVal}
@@ -136,8 +140,10 @@ const Home: NextPage = () => {
 								className="w-64 bg-slate-900 outline-none text-purple-100 text-sm rounded-lg block p-2.5 pl-10 pr-16 focus:ring-violet-300 focus:ring-opacity-40 ring-0 focus:ring-2"
 								placeholder="Enter Game Code"
 							/>
-							<button className="absolute inset-y-0 right-0 flex items-center px-4 font-bold text-white bg-indigo-700 rounded-r-lg hover:bg-indigo-600 focus:bg-indigo-800"
-								onClick={(e) => joinRoom(e)}>
+							<button
+								className="absolute inset-y-0 right-0 flex items-center px-4 font-bold text-white bg-indigo-700 rounded-r-lg hover:bg-indigo-600 focus:bg-indigo-800"
+								onClick={e => joinRoom(e)}
+							>
 								Join
 							</button>
 						</div>
@@ -155,10 +161,12 @@ const Home: NextPage = () => {
 							<span className="w-12 h-0.5 bg-white opacity-10 rounded-full" />
 						</div>
 						{/* <Link href="/join"> */}
-							<button className="relative py-2.5 px-5  flex items-center font-bold text-white bg-indigo-600 rounded-lg hover:bg-indigo-500 focus:bg-indigo-700"
-							onClick={(e) => createNewRoom(e)}>
-								Create new game
-							</button>
+						<button
+							className="relative py-2.5 px-5  flex items-center font-bold text-white bg-indigo-600 rounded-lg hover:bg-indigo-500 focus:bg-indigo-700"
+							onClick={e => createNewRoom(e)}
+						>
+							Create new game
+						</button>
 						{/* </Link> */}
 					</div>
 				</div>
