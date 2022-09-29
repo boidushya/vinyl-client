@@ -8,9 +8,7 @@ import useSpotifyStore, {
 	getAccessTokenFromRedirectUrl,
 	spotifyAuthorize,
 } from "store/spotifyAuthStore";
-import { socket } from "utils/webSocket";
-import { nanoid } from "nanoid";
-import { uniqueNamesGenerator, Config, names } from "unique-names-generator";
+import { createNewSocketRoom } from "utils/webSocket";
 import useGameStore from "store/gameStore";
 
 interface PlaylistSelectorPanelProps {}
@@ -65,19 +63,7 @@ const PlaylistSelectorPanel: React.FC<PlaylistSelectorPanelProps> = ({}) => {
 	};
 
 	const createNewRoom = () => {
-		// create room
-		const config: Config = {
-			dictionaries: [names],
-		};
-
-		const characterName: string = uniqueNamesGenerator(config);
-
-		const roomId = nanoid(6);
-		socket.emit("joinRoom", {
-			username: characterName,
-			room: roomId,
-		});
-
+		const roomId = createNewSocketRoom();
 		setRoomId(roomId);
 	};
 
@@ -98,10 +84,7 @@ const PlaylistSelectorPanel: React.FC<PlaylistSelectorPanelProps> = ({}) => {
 				</div>
 			)}
 
-			{/* <div>
-				<pre>{JSON.stringify(accessToken, null, 2)}</pre>
-			</div> */}
-			{!isConnected ? (
+			{!isConnected && (
 				<div className="flex flex-col gap-4 mt-auto mb-10 text-center justify-self-end">
 					<p>Play with your custom playlist</p>
 
@@ -109,10 +92,6 @@ const PlaylistSelectorPanel: React.FC<PlaylistSelectorPanelProps> = ({}) => {
 						Connect with Spotify
 					</Button>
 				</div>
-			) : (
-				<Button onClick={createNewRoom} className="w-full">
-					Create Room ID
-				</Button>
 			)}
 		</div>
 	);

@@ -12,8 +12,7 @@ interface GameSettingPanelProps {}
 const GameSettingPanel: React.FC<GameSettingPanelProps> = () => {
 	const router = useRouter();
 	const username = useUserStore(state => state.username);
-	const playlist = useGameStore(state => state.playlist);
-	const { rounds, setRounds, start } = useGameStore();
+	const { rounds, setRounds, start, roomId, playlist } = useGameStore();
 	const [gameRound, setGameRound] = useState(rounds);
 
 	const handleRoundChange = (value: number | number[]) => {
@@ -52,9 +51,10 @@ const GameSettingPanel: React.FC<GameSettingPanelProps> = () => {
 				<Button
 					onClick={startGame}
 					className={`w-full ${
-						!playlist && "bg-slate-400 hover:bg-slate-400"
+						(!playlist || roomId === undefined) &&
+						"bg-slate-400 hover:bg-slate-400"
 					}`}
-					disabled={playlist === undefined}
+					disabled={playlist === undefined || roomId === undefined}
 				>
 					Start Game
 				</Button>

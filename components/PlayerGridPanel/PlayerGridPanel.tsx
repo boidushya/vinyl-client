@@ -2,11 +2,17 @@ import React from "react";
 import Profile from "components/Profile/Profile";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import useAlert from "store/alertStore";
+import useSpotifyStore from "store/spotifyAuthStore";
+import useGameStore from "store/gameStore";
+import Button from "components/Button/Button";
+import { createNewSocketRoom } from "utils/webSocket";
 
 interface PlayerGridPanelProps {}
 
 const PlayerGridPanel: React.FC<PlayerGridPanelProps> = ({}) => {
 	const { success } = useAlert();
+	const { isConnected } = useSpotifyStore();
+	const { roomId, setRoomId } = useGameStore();
 	const usernames = [
 		"mavn",
 		"Test",
@@ -21,6 +27,51 @@ const PlayerGridPanel: React.FC<PlayerGridPanelProps> = ({}) => {
 		// "vue",
 		// "lorem ipsum",
 	];
+
+	const createNewRoom = () => {
+		const roomId = createNewSocketRoom();
+		setRoomId(roomId);
+	};
+
+	let CallToAction;
+
+	if (!isConnected)
+		CallToAction = <div>Connect to spotify to choose the track</div>;
+	else if (roomId === undefined)
+		CallToAction = (
+			<>
+				<h3>Select the playlist and create game room.</h3>
+
+				<Button onClick={createNewRoom} className="w-full mt-4">
+					Create Room ID
+				</Button>
+			</>
+		);
+	else {
+		CallToAction = (
+			<>
+				<h3>
+					Select the playlist, Share the Join Code with your friends
+					and Play!
+				</h3>
+
+				<CopyToClipboard
+					text={roomId}
+					onCopy={() => {
+						success("Join Code Copied to Clipboard");
+					}}
+				>
+					<div
+						data-tip
+						data-for="copy-clipboard"
+						className="block px-4 py-3 text-align bg-[#4d4d79] hover:bg-[#414165] focus:bg-[#343459] w-full rounded-md mt-4 font-bold text-lg"
+					>
+						<span>{roomId}</span>
+					</div>
+				</CopyToClipboard>
+			</>
+		);
+	}
 
 	const admin = "mavn";
 
@@ -48,21 +99,7 @@ const PlayerGridPanel: React.FC<PlayerGridPanelProps> = ({}) => {
 				})}
 			</div>
 			<div className="w-full mt-auto mb-1 text-center px-9 justify-self-end">
-				<h3>Invite Friends</h3>
-				<CopyToClipboard
-					text="https://www.npmjs.com/"
-					onCopy={() => {
-						success("Copied to Clipboard");
-					}}
-				>
-					<div
-						data-tip
-						data-for="copy-clipboard"
-						className="block px-4 py-3 text-align bg-[#4d4d79] hover:bg-[#414165] focus:bg-[#343459] w-full rounded-md mt-4 font-medium"
-					>
-						<span> https://www.npmjs.com/</span>
-					</div>
-				</CopyToClipboard>
+				{CallToAction}
 			</div>
 		</div>
 	);
