@@ -1,25 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { ScaleLoader } from "react-spinners";
 import Playlist from "components/Playlist/Playlist";
 import Button from "components/Button/Button";
 import useModal from "store/modalStore";
+import useSpotifyStore, {
+	getAccessTokenFromRedirectUrl,
+	spotifyAuthorize,
+} from "store/spotifyAuthStore";
+import { createNewSocketRoom } from "utils/webSocket";
+import useGameStore from "store/gameStore";
 
 interface PlaylistSelectorPanelProps {}
 
-const playlists = [
-	{
-		id: "fadf",
-		playlistName: "Playlist one",
-		playlistCover: "https://picsum.photos/200",
-	},
-	{
-		id: "fssa",
-		playlistName: "Playlist two",
-		playlistCover: "https://picsum.photos/200",
-	},
-];
-
 const PlaylistSelectorPanel: React.FC<PlaylistSelectorPanelProps> = ({}) => {
-	const startGame = () => {
+	const { asPath } = useRouter();
+	const {
+		getPlaylists,
+		setAccessToken,
+		isConnected,
+		playlists,
+		loading,
+		setLoading,
+		setConnected,
+	} = useSpotifyStore();
+	const setRoomId = useGameStore(state => state.setRoomId);
+	const { showModal } = useModal();
+
+	useEffect(() => {
+		const params = asPath.split("#")[1];
+		if (params) {
+			setLoading(true);
+			const accessToken = getAccessTokenFromRedirectUrl(params);
+			setAccessToken(accessToken);
+			getPlaylists();
+			setLoading(false);
+			setConnected(true);
+		}
+	}, [asPath, getPlaylists, setAccessToken, setConnected, setLoading]);
+
+	const connectSpotify = () => {
 		showModal(
 			<div className="flex flex-col gap-6">
 				<h5 className="font-medium">Enjoy your playlists</h5>
@@ -29,8 +49,11 @@ const PlaylistSelectorPanel: React.FC<PlaylistSelectorPanelProps> = ({}) => {
 					around the world are updating their terms of service
 					agreements to comply.
 				</p>
+
 				<Button
-					onClick={() => {}}
+					onClick={() => {
+						spotifyAuthorize();
+					}}
 					className="w-full py-2 ml-auto text-sm justify-self-end"
 				>
 					Login with Spotify
@@ -39,27 +62,37 @@ const PlaylistSelectorPanel: React.FC<PlaylistSelectorPanelProps> = ({}) => {
 		);
 	};
 
-	const { showModal } = useModal();
+	const createNewRoom = () => {
+		const roomId = createNewSocketRoom();
+		setRoomId(roomId);
+	};
 
 	return (
 		<div className="flex flex-col h-full gap-5 pt-9">
 			<h2 className="pb-4 text-xl font-semibold">Playlist</h2>
-			<div className="flex flex-col gap-4">
-				{playlists.map(playlist => (
-					<Playlist
-						id={playlist.id}
-						key={playlist.id}
-						playlistCover={playlist.playlistCover}
-						playlistName={playlist.playlistName}
-					/>
-				))}
-			</div>
-			<div className="flex flex-col gap-4 mt-auto mb-10 text-center justify-self-end">
-				<p>Play with your custom playlist</p>
-				<Button onClick={startGame} className="w-full">
-					Connect with Spotify
-				</Button>
-			</div>
+			{loading ? (
+				<div className="h-full flex justify-center items-center w-full">
+					<ScaleLoader color="#ffffff" loading={loading} />
+				</div>
+			) : (
+				<div className="h-full overflow-y-scroll overflow-x-hidden pr-4">
+					<div className="grid grid-cols-3 gap-4">
+						{playlists.map(playlist => (
+							<Playlist playlist={playlist} key={playlist.id} />
+						))}
+					</div>
+				</div>
+			)}
+
+			{!isConnected && (
+				<div className="flex flex-col gap-4 mt-auto mb-10 text-center justify-self-end">
+					<p>Play with your custom playlist</p>
+
+					<Button onClick={connectSpotify} className="w-full">
+						Connect with Spotify
+					</Button>
+				</div>
+			)}
 		</div>
 	);
 };

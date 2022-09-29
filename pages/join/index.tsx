@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import Head from "next/head";
 import type { NextPage } from "next";
 import Container from "components/Layout/Container";
+import socketIOClient from "socket.io-client";
 
 // panels
 import GameSettingPanel from "components/GameSettingPanel/GameSettingPanel";
@@ -9,6 +10,7 @@ import PlayerGridPanel from "components/PlayerGridPanel/PlayerGridPanel";
 import PlaylistSelectorPanel from "components/PlaylistSelectorPanel/PlaylistSelectorPanel";
 
 const Join: NextPage = () => {
+
 	return (
 		<div className="bg-template">
 			<Head>

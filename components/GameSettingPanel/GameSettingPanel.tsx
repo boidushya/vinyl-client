@@ -1,23 +1,30 @@
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import Profile from "components/Profile/Profile";
 import Button from "components/Button/Button";
 import useUserStore from "store/userStore";
+import useGameStore from "store/gameStore";
 
 interface GameSettingPanelProps {}
 
 const GameSettingPanel: React.FC<GameSettingPanelProps> = () => {
-	const [rounds, setRounds] = useState<number>(10);
+	const router = useRouter();
+	const username = useUserStore(state => state.username);
+	const { rounds, setRounds, start, roomId, playlist } = useGameStore();
+	const [gameRound, setGameRound] = useState(rounds);
 
 	const handleRoundChange = (value: number | number[]) => {
-		if (Array.isArray(value)) setRounds(value[0]);
-		else setRounds(value);
+		if (Array.isArray(value)) setGameRound(value[0]);
+		else setGameRound(value);
 	};
 
-	const username = useUserStore(state => state.username);
-
-	const startGame = () => {};
+	const startGame = () => {
+		setRounds(rounds);
+		start();
+		router.push("/game");
+	};
 
 	return (
 		<div className="flex flex-col h-full gap-5 pt-9">
@@ -26,7 +33,9 @@ const GameSettingPanel: React.FC<GameSettingPanelProps> = () => {
 				<Profile username={username} isEditable />
 			</div>
 			<div>
-				<h2 className="text-lg font-medium"># of rounds ({rounds})</h2>
+				<h2 className="text-lg font-medium">
+					No. Of Rounds ({gameRound})
+				</h2>
 				<div className="pt-2 mx-1">
 					<Slider
 						handleStyle={{
@@ -53,7 +62,14 @@ const GameSettingPanel: React.FC<GameSettingPanelProps> = () => {
 				</div>
 			</div>
 			<div className="mt-auto mb-10 justify-self-end">
-				<Button onClick={startGame} className="w-full">
+				<Button
+					onClick={startGame}
+					className={`w-full ${
+						(!playlist || roomId === undefined) &&
+						"bg-slate-400 hover:bg-slate-400"
+					}`}
+					disabled={playlist === undefined || roomId === undefined}
+				>
 					Start Game
 				</Button>
 			</div>
