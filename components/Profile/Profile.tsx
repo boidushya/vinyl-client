@@ -4,6 +4,7 @@ import { FiEdit2 } from "react-icons/fi";
 import { IoMdClose } from "react-icons/io";
 import useModal from "store/modalStore";
 import Button from "components/Button/Button";
+import useUserStore from "store/userStore";
 
 interface ProfileProps {
 	// change with user id
@@ -12,11 +13,6 @@ interface ProfileProps {
 	isKickable?: boolean;
 }
 
-// TODO
-// - admin id
-// admin username
-
-const isAdmin = true;
 const currentUsername = "mavn";
 
 const Profile: React.FC<ProfileProps> = ({
@@ -24,6 +20,8 @@ const Profile: React.FC<ProfileProps> = ({
 	isEditable = false,
 	isKickable = false,
 }) => {
+	const { isAdmin } = useUserStore();
+
 	const showEditButton =
 		isEditable && (isAdmin || username === currentUsername);
 
