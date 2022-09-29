@@ -1,30 +1,77 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { nanoid } from "nanoid";
 import { uniqueNamesGenerator, Config, names } from "unique-names-generator";
+import useSound from "use-sound";
 
 import socketIOClient from "socket.io-client";
 import Link from "next/link";
 
-import { dropConfetti } from "components/Celebrate/Celebrate";
 import { socket } from "utils/webSocket";
 import useGameStore from "store/gameStore";
 
+const SONG_URL = [
+	{
+		name: "Welcome To New York",
+		image: "https://i.scdn.co/image/ab67616d0000b273c79b600289a80aaef74d155d",
+		url: "/886/18558d9295def6bed481f35be0cc4a25_96_p.mp4",
+	},
+	{
+		name: "Blank Space",
+		image: "https://i.scdn.co/image/ab67616d0000b273c79b600289a80aaef74d155d",
+		url: "/886/e3a103cb56c3fda02b23d528f3eacde1_96_p.mp4",
+	},
+	{
+		name: "Style",
+		image: "https://i.scdn.co/image/ab67616d0000b273c79b600289a80aaef74d155d",
+		url: "/886/7b2cc3871825b7ce835fd26a35c8b71c_96_p.mp4",
+	},
+	{
+		name: "Out Of The Woods",
+		image: "https://i.scdn.co/image/ab67616d0000b273c79b600289a80aaef74d155d",
+		url: "/886/439619854c16f1aa9d436cdc0da07566_96_p.mp4",
+	},
+];
+
+const SELECTED_SONG = SONG_URL[Math.floor(Math.random() * SONG_URL.length)];
+
 const Home: NextPage = () => {
-	const songName = "Jenny - Studio Killers";
+	const [selectedSong, setSelectedSong] = useState(SELECTED_SONG);
+	const [songIsLoading, setSongIsLoading] = useState(true);
+	const songName = selectedSong.name;
 	const { setRoomId } = useGameStore();
-	const [isMuted, setIsMuted] = useState(false);
+	const [isMuted, setIsMuted] = useState(true);
 	const [isTyping, setIsTyping] = useState(false);
 	const [roomVal, setRoomVal] = useState("");
 
 	const router = useRouter();
 
+	const [play, { sound }] = useSound(
+		`${process.env.NEXT_PUBLIC_REZONANCE_URL}${selectedSong.url}`,
+		{
+			volume: 0.5,
+			onload: () => {
+				setSongIsLoading(false);
+			},
+		}
+	);
+
+	useEffect(() => {
+		if (sound) {
+			isMuted ? sound.pause() : play();
+			sound.loop(true);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [isMuted]);
+
 	const keyboardMap: { key: string; action: () => void }[] = [
 		{
-			key: "m",
-			action: () => setIsMuted(isMuted ? false : true),
+			key: " ",
+			action: () => {
+				setIsMuted(isMuted ? false : true);
+			},
 		},
 	];
 
@@ -52,8 +99,6 @@ const Home: NextPage = () => {
 
 	const characterName: string = uniqueNamesGenerator(config);
 
-	console.log(characterName, "char");
-
 	const joinRoom = (e: any) => {
 		e.preventDefault();
 		console.log("in join");
@@ -68,10 +113,10 @@ const Home: NextPage = () => {
 
 		socket.on("roomUsers", (data: any) => {
 			console.log(data);
-		})
+		});
 
 		router.push("/game");
-	}
+	};
 
 	const createNewRoom = (e: any) => {
 		e.preventDefault();
@@ -98,7 +143,11 @@ const Home: NextPage = () => {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 
-			<main className="grid w-full h-full p-8 place-items-center bg-hero">
+			<main
+				className={`grid w-full h-full p-8 place-items-center bg-hero ${
+					!isMuted ? `bg-hero__playing` : ``
+				}`}
+			>
 				<div className="grid space-y-12 place-items-center">
 					<h1 className="relative text-[#FF3AF3] text-9xl text-stroke font-heading select-none ">
 						Vinyl
@@ -170,37 +219,97 @@ const Home: NextPage = () => {
 					</div>
 				</div>
 			</main>
-			<div
-				className="absolute bottom-0 right-0 px-8 py-4 text-sm text-opacity-50 select-none text-violet-200"
-				onClick={() => dropConfetti()}
-			>
-				Now Playing:{" "}
-				<span className="cursor-pointer hover:underline">
+			<div className="absolute bottom-0 right-0 px-8 py-4 text-sm text-opacity-50 select-none text-violet-200">
+				{isMuted ? `Press [SPACE]` : `Now Playing`}:{" "}
+				<span
+					suppressHydrationWarning
+					className="cursor-pointer hover:underline"
+				>
 					{songName}
 				</span>
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					fill="none"
-					viewBox="0 0 24 24"
-					strokeWidth={1.5}
-					stroke="currentColor"
-					onClick={() => setIsMuted(!isMuted)}
-					className="inline w-4 h-4 ml-1 align-middle cursor-pointer"
-				>
-					{isMuted ? (
-						<path
-							strokeLinecap="round"
-							strokeLinejoin="round"
-							d="M17.25 9.75L19.5 12m0 0l2.25 2.25M19.5 12l2.25-2.25M19.5 12l-2.25 2.25m-10.5-6l4.72-4.72a.75.75 0 011.28.531V19.94a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.506-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.395C2.806 8.757 3.63 8.25 4.51 8.25H6.75z"
-						/>
-					) : (
-						<path
-							strokeLinecap="round"
-							strokeLinejoin="round"
-							d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z"
-						/>
-					)}
-				</svg>
+				{songIsLoading ? (
+					// <svg
+					// 	xmlns="http://www.w3.org/2000/svg"
+					// 	fill="none"
+					// 	viewBox="0 0 24 24"
+					// 	strokeWidth={1.5}
+					// 	stroke="currentColor"
+					// 	className="inline w-5 h-5 ml-1 align-middle cursor-wait"
+					// >
+					// 	<path
+					// 		strokeLinecap="round"
+					// 		strokeLinejoin="round"
+					// 		d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"
+					// 	/>
+					// </svg>
+					<>
+						<svg
+							version="1.1"
+							id="L9"
+							xmlns="http://www.w3.org/2000/svg"
+							xmlnsXlink="http://www.w3.org/1999/xlink"
+							x="0px"
+							y="0px"
+							fill="currentColor"
+							viewBox="20 20 60 60"
+							enable-background="new 0 0 0 0"
+							xmlSpace="preserve"
+							className="inline w-5 h-5 ml-1 align-middle cursor-wait"
+						>
+							<path d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50">
+								<animateTransform
+									attributeName="transform"
+									attributeType="XML"
+									type="rotate"
+									dur="1s"
+									from="0 50 50"
+									to="360 50 50"
+									repeatCount="indefinite"
+								/>
+							</path>
+						</svg>
+					</>
+				) : (
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 24 24"
+						strokeWidth={1.5}
+						stroke="currentColor"
+						onClick={() => {
+							setIsMuted(!isMuted);
+						}}
+						className="inline w-5 h-5 ml-1 align-middle cursor-pointer"
+					>
+						{isMuted ? (
+							<>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+								/>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									d="M15.91 11.672a.375.375 0 010 .656l-5.603 3.113a.375.375 0 01-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112z"
+								/>
+							</>
+						) : (
+							<>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+								/>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									d="M9 9.563C9 9.252 9.252 9 9.563 9h4.874c.311 0 .563.252.563.563v4.874c0 .311-.252.563-.563.563H9.564A.562.562 0 019 14.437V9.564z"
+								/>
+							</>
+						)}
+					</svg>
+				)}
 			</div>
 		</div>
 	);

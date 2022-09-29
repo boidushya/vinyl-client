@@ -45,6 +45,7 @@ a {
 			rgba(68, 54, 113, 1) 33%,
 			rgba(19, 19, 27, 1) 100%
 		);
+	background-size: cover;
 
 	&:before {
 		position: absolute;
@@ -62,7 +63,11 @@ a {
 			rgba(19, 19, 27, 1) 100%
 		);
 		border: 10px solid #15131e;
-		animation: rotate linear 4s infinite;
+	}
+	&__playing {
+		&:before {
+			animation: rotate linear 4s infinite;
+		}
 	}
 	&:after {
 		position: absolute;
@@ -111,25 +116,24 @@ a {
 	background-color: #4f46e5 !important;
 }
 
-
 /* width */
 ::-webkit-scrollbar {
-  width: 8px;
+	width: 8px;
 	border-radius: 8;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #13131a;
+	background: #13131a;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #4f46e5;
-  border-radius: "8px";
+	background: #4f46e5;
+	border-radius: "8px";
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: rgb(37, 40, 74);
+	background: rgb(37, 40, 74);
 }
