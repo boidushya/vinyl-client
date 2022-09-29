@@ -75,16 +75,15 @@ const Home: NextPage = () => {
 
 	const createNewRoom = (e: any) => {
 		e.preventDefault();
-		5;
-		console.log(nanoid(6), characterName);
+		// console.log(nanoid(6), characterName);
 
-		const roomId = nanoid(6);
-		socket.emit("joinRoom", {
-			username: characterName,
-			room: roomId,
-		});
+		// const roomId = nanoid(6);
+		// socket.emit("joinRoom", {
+		// 	username: characterName,
+		// 	room: roomId,
+		// });
 
-		setRoomId(roomId);
+		// setRoomId(roomId);
 		router.push("/join");
 	};
 

@@ -8,6 +8,10 @@ import useSpotifyStore, {
 	getAccessTokenFromRedirectUrl,
 	spotifyAuthorize,
 } from "store/spotifyAuthStore";
+import { socket } from "utils/webSocket";
+import { nanoid } from "nanoid";
+import { uniqueNamesGenerator, Config, names } from "unique-names-generator";
+import useGameStore from "store/gameStore";
 
 interface PlaylistSelectorPanelProps {}
 
@@ -22,6 +26,7 @@ const PlaylistSelectorPanel: React.FC<PlaylistSelectorPanelProps> = ({}) => {
 		setLoading,
 		setConnected,
 	} = useSpotifyStore();
+	const setRoomId = useGameStore(state => state.setRoomId);
 	const { showModal } = useModal();
 
 	useEffect(() => {
@@ -36,7 +41,7 @@ const PlaylistSelectorPanel: React.FC<PlaylistSelectorPanelProps> = ({}) => {
 		}
 	}, [asPath, getPlaylists, setAccessToken, setConnected, setLoading]);
 
-	const startGame = () => {
+	const connectSpotify = () => {
 		showModal(
 			<div className="flex flex-col gap-6">
 				<h5 className="font-medium">Enjoy your playlists</h5>
@@ -46,6 +51,7 @@ const PlaylistSelectorPanel: React.FC<PlaylistSelectorPanelProps> = ({}) => {
 					around the world are updating their terms of service
 					agreements to comply.
 				</p>
+
 				<Button
 					onClick={() => {
 						spotifyAuthorize();
@@ -56,6 +62,23 @@ const PlaylistSelectorPanel: React.FC<PlaylistSelectorPanelProps> = ({}) => {
 				</Button>
 			</div>
 		);
+	};
+
+	const createNewRoom = () => {
+		// create room
+		const config: Config = {
+			dictionaries: [names],
+		};
+
+		const characterName: string = uniqueNamesGenerator(config);
+
+		const roomId = nanoid(6);
+		socket.emit("joinRoom", {
+			username: characterName,
+			room: roomId,
+		});
+
+		setRoomId(roomId);
 	};
 
 	return (
@@ -78,21 +101,18 @@ const PlaylistSelectorPanel: React.FC<PlaylistSelectorPanelProps> = ({}) => {
 			{/* <div>
 				<pre>{JSON.stringify(accessToken, null, 2)}</pre>
 			</div> */}
-			{!isConnected && (
+			{!isConnected ? (
 				<div className="flex flex-col gap-4 mt-auto mb-10 text-center justify-self-end">
 					<p>Play with your custom playlist</p>
-					{/* <Button
-					onClick={() => {
-						getPlaylists();
-					}}
-					className="w-full"
-				>
-					Fetch Playlists
-				</Button> */}
-					<Button onClick={startGame} className="w-full">
+
+					<Button onClick={connectSpotify} className="w-full">
 						Connect with Spotify
 					</Button>
 				</div>
+			) : (
+				<Button onClick={createNewRoom} className="w-full">
+					Create Room ID
+				</Button>
 			)}
 		</div>
 	);
