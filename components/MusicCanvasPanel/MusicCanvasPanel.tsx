@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import ReactHowler from "react-howler";
 import { ColorExtractor } from "react-color-extractor";
 import { MdVolumeUp, MdVolumeOff, MdPlayArrow } from "react-icons/md";
@@ -10,6 +10,12 @@ const MusicCanvasPanel: React.FC<MusicCanvasPanelProps> = () => {
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [isMuted, setIsMuted] = useState(false);
 	const [colors, setColors] = useState<String[]>([]);
+	const playButtonRef = useRef(null);
+
+	// useEffect(() => {
+	// 	if (playButtonRef !== null && playButtonRef.current)
+	// 		playButtonRef.current.click();
+	// }, [playButtonRef]);
 
 	let icon;
 	if (!isPlaying) {
@@ -22,6 +28,11 @@ const MusicCanvasPanel: React.FC<MusicCanvasPanelProps> = () => {
 	const getColors = (imageColors: String[]) => {
 		setColors(imageColors);
 		console.log(imageColors);
+	};
+
+	const playSong = () => {
+		if (!isPlaying) setIsPlaying(true);
+		else setIsMuted(!isMuted);
 	};
 
 	const ALBUM_ART =
@@ -37,8 +48,9 @@ const MusicCanvasPanel: React.FC<MusicCanvasPanelProps> = () => {
 			<div
 				className={`rounded-xl flex items-center justify-center flex-col gap-9 py-9 h-full overflow-hidden`}
 				style={{
-					// backgroundColor: `${colors[0]}`,
-					background: `linear-gradient(${colors[0]}, ${colors[4]})`,
+					background: `linear-gradient(${colors[0]}, ${colors[2]})`,
+					backgroundAttachment: "fixed",
+					backgroundSize: "cover",
 				}}
 			>
 				<ReactHowler
@@ -52,17 +64,18 @@ const MusicCanvasPanel: React.FC<MusicCanvasPanelProps> = () => {
 					alt=""
 					width={100}
 					height={100}
-					className="blur-xl w-80 h-80 rounded-lg"
+					className="blur-none w-80 h-80 rounded-lg"
 				/>
 
 				<p className="font-bold text-3xl my-1 text-center tracking-wider">
 					{NAME}
 				</p>
 				<button
+					ref={playButtonRef}
+					// onFocus={playSong}
 					className={`p-4 rounded-full bg-[#ffffff50]`}
 					onClick={() => {
-						if (!isPlaying) setIsPlaying(true);
-						else setIsMuted(!isMuted);
+						playSong();
 					}}
 				>
 					{icon}
@@ -70,6 +83,6 @@ const MusicCanvasPanel: React.FC<MusicCanvasPanelProps> = () => {
 			</div>
 		</>
 	);
-};
+};;;;;;;;;;;;;;
 
 export default MusicCanvasPanel;

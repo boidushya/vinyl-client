@@ -3,7 +3,12 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { nanoid } from "nanoid";
-import { uniqueNamesGenerator, Config, names } from "unique-names-generator";
+import {
+	uniqueNamesGenerator,
+	Config,
+	adjectives,
+	animals,
+} from "unique-names-generator";
 
 import socketIOClient from "socket.io-client";
 import Link from "next/link";
@@ -47,7 +52,7 @@ const Home: NextPage = () => {
 	//const socket=useSocketInstanceStore((state:any)=>state.socket)
 
 	const config: Config = {
-		dictionaries: [names],
+		dictionaries: [adjectives, animals],
 	};
 
 	const characterName: string = uniqueNamesGenerator(config);
@@ -68,10 +73,10 @@ const Home: NextPage = () => {
 
 		socket.on("roomUsers", (data: any) => {
 			console.log(data);
-		})
+		});
 
 		router.push("/game");
-	}
+	};
 
 	const createNewRoom = (e: any) => {
 		e.preventDefault();
