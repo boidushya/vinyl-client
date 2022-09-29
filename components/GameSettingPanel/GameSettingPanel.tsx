@@ -6,6 +6,7 @@ import Profile from "components/Profile/Profile";
 import Button from "components/Button/Button";
 import useUserStore from "store/userStore";
 import useGameStore from "store/gameStore";
+import { socket } from "utils/webSocket";
 
 interface GameSettingPanelProps {}
 
@@ -24,6 +25,7 @@ const GameSettingPanel: React.FC<GameSettingPanelProps> = () => {
 		setRounds(rounds);
 		start();
 		router.push("/game");
+		socket.emit("startGame",roomId);
 	};
 
 	return (

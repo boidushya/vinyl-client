@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 import ReactHowler from "react-howler";
 import { ColorExtractor } from "react-color-extractor";
 import { MdVolumeUp, MdVolumeOff, MdPlayArrow } from "react-icons/md";
+import { socket } from "utils/webSocket";
 
 interface MusicCanvasPanelProps {}
 
@@ -33,6 +34,7 @@ const MusicCanvasPanel: React.FC<MusicCanvasPanelProps> = () => {
 		if (!isPlaying) setIsPlaying(true);
 		else setIsMuted(!isMuted);
 	};
+
 
 	const ALBUM_ART =
 		"https://i.scdn.co/image/ab67616d0000b273c79b600289a80aaef74d155d";

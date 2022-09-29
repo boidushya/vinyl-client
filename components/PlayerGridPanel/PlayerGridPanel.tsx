@@ -6,13 +6,14 @@ import useSpotifyStore from "store/spotifyAuthStore";
 import useGameStore from "store/gameStore";
 import Button from "components/Button/Button";
 import { createNewSocketRoom } from "utils/webSocket";
+import axios from "axios";
 
 interface PlayerGridPanelProps {}
 
 const PlayerGridPanel: React.FC<PlayerGridPanelProps> = ({}) => {
 	const { success } = useAlert();
 	const { isConnected } = useSpotifyStore();
-	const { roomId, setRoomId } = useGameStore();
+	const { roomId, setRoomId,playlist,rounds } = useGameStore();
 	const usernames = [
 		"mavn",
 		"Test",
@@ -28,9 +29,41 @@ const PlayerGridPanel: React.FC<PlayerGridPanelProps> = ({}) => {
 		// "lorem ipsum",
 	];
 
-	const createNewRoom = () => {
-		const roomId = createNewSocketRoom();
-		setRoomId(roomId);
+	const createNewRoom = async () => {
+		try {
+			const tracksHref = playlist?.href;
+			const response = await axios.get(tracksHref!, {
+				headers: {
+					Authorization: `Bearer ${
+						useSpotifyStore.getState().accessToken
+					}`,
+				},
+			});
+
+			const data = response.data;
+			
+			let track_ids = data.items.map(
+				(item: { track: { id: string } }) => {
+					return item.track.id;
+				}
+				);
+				
+				// just send selected tracks
+				
+				track_ids = track_ids.slice(0, rounds);
+
+				console.log(track_ids,"trackss");
+
+				const roomId = createNewSocketRoom(track_ids);
+
+				setRoomId(roomId);
+
+			}	
+		catch(err) {
+			console.log(err);
+		}
+		
+			
 	};
 
 	let CallToAction;
