@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Head from "next/head";
 import Podium from "components/Podium/Podium";
+import { dropConfetti } from "components/Celebrate/Celebrate";
 
 const data = [
 	{
@@ -24,6 +25,10 @@ const data = [
 ];
 
 const Results = () => {
+	useEffect(() => {
+		dropConfetti();
+	}, []);
+
 	return (
 		<>
 			<Head>
@@ -34,16 +39,18 @@ const Results = () => {
 				/>
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
-			<main className="container relative mx-auto p-8">
-				<h2
-					className="text-4xl font-bold text-center w-full p-9"
-					style={{
-						fontFamily: "syne",
-					}}
-				>
-					Winners
-				</h2>
-				<Podium players={data} />
+			<main className="bg-hero h-screen" onClick={() => dropConfetti()}>
+				<div className="container relative mx-auto p-8">
+					<h2
+						className="text-4xl font-bold text-center w-full p-9"
+						style={{
+							fontFamily: "syne",
+						}}
+					>
+						Vinyl Winners
+					</h2>
+					<Podium players={data} />
+				</div>
 			</main>
 		</>
 	);

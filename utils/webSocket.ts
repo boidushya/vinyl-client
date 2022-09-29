@@ -1,12 +1,19 @@
 import { io } from 'socket.io-client';
 import { nanoid } from "nanoid";
-import { uniqueNamesGenerator, Config, names } from "unique-names-generator";
+import {
+	uniqueNamesGenerator,
+	Config,
+	names,
+	adjectives,
+	animals,
+} from "unique-names-generator";
 
 const SOCKET_BASE_URL = "http://localhost:5000";
 
 export function createNewSocketRoom() {
 	const config: Config = {
-		dictionaries: [names],
+		dictionaries: [adjectives, animals],
+		separator: "-",
 	};
 
 	const characterName: string = uniqueNamesGenerator(config);
