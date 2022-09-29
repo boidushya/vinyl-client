@@ -27,7 +27,6 @@ const MusicCanvasPanel: React.FC<MusicCanvasPanelProps> = () => {
 
 	const getColors = (imageColors: String[]) => {
 		setColors(imageColors);
-		console.log(imageColors);
 	};
 
 	const playSong = () => {
@@ -49,8 +48,6 @@ const MusicCanvasPanel: React.FC<MusicCanvasPanelProps> = () => {
 				className={`rounded-xl flex items-center justify-center flex-col gap-9 py-9 h-full overflow-hidden`}
 				style={{
 					background: `linear-gradient(${colors[0]}, ${colors[2]})`,
-					backgroundAttachment: "fixed",
-					backgroundSize: "cover",
 				}}
 			>
 				<ReactHowler
