@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 import ReactHowler from "react-howler";
 import { ColorExtractor } from "react-color-extractor";
 import { MdVolumeUp, MdVolumeOff, MdPlayArrow } from "react-icons/md";
+import useGameStore from "store/gameStore";
 
 interface MusicCanvasPanelProps {}
 
@@ -10,12 +11,12 @@ const MusicCanvasPanel: React.FC<MusicCanvasPanelProps> = () => {
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [isMuted, setIsMuted] = useState(false);
 	const [colors, setColors] = useState<String[]>([]);
-	const playButtonRef = useRef(null);
 
-	// useEffect(() => {
-	// 	if (playButtonRef !== null && playButtonRef.current)
-	// 		playButtonRef.current.click();
-	// }, [playButtonRef]);
+	const { gameLoop, countdown } = useGameStore();
+
+	useEffect(() => {
+		gameLoop();
+	}, []);
 
 	let icon;
 	if (!isPlaying) {
@@ -56,6 +57,7 @@ const MusicCanvasPanel: React.FC<MusicCanvasPanelProps> = () => {
 					mute={isMuted}
 				/>
 
+				<p className="mb-4 font-bold text-lg">{countdown}</p>
 				<img
 					src={ALBUM_ART}
 					alt=""
@@ -68,7 +70,6 @@ const MusicCanvasPanel: React.FC<MusicCanvasPanelProps> = () => {
 					{NAME}
 				</p>
 				<button
-					ref={playButtonRef}
 					// onFocus={playSong}
 					className={`p-4 rounded-full bg-[#ffffff50]`}
 					onClick={() => {
@@ -80,6 +81,6 @@ const MusicCanvasPanel: React.FC<MusicCanvasPanelProps> = () => {
 			</div>
 		</>
 	);
-}
+};
 
 export default MusicCanvasPanel;

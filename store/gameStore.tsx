@@ -11,12 +11,15 @@ type Game = {
 	playlist: Playlist | undefined;
 	tracks: Track[];
 	currentTrack: Song | undefined;
+	countdown: number;
+	setCountdown: (countdown: number) => void;
 	setCurrentTrack: (currentTrack: Song) => void;
 	setRounds: (round: number) => void;
 	setPlaylist: (playlist: Playlist) => void;
 	setTracks: (tracks: Track[]) => void;
 	setRoomId: (roomId: string) => void;
 	start: () => void;
+	gameLoop: () => void;
 };
 
 const useGameStore = create<Game>((set, get) => ({
@@ -25,6 +28,10 @@ const useGameStore = create<Game>((set, get) => ({
 	playlist: undefined,
 	currentTrack: undefined,
 	tracks: [],
+	countdown: 30,
+	setCountdown: (countdown: number) => {
+		set((state: Game) => ({ ...state, countdown: countdown }));
+	},
 	setRounds: (round: number) => {
 		set((state: Game) => ({ ...state, round: round }));
 	},
@@ -75,7 +82,7 @@ const useGameStore = create<Game>((set, get) => ({
 
 			if (roomId) {
 				const res = await createQuestion(roomId, track_ids);
-				console.log(res.data,"Data from create questioons");
+				console.log(res, "Data from create questions");
 			} else {
 				console.error("Room Id not defined");
 			}
@@ -94,6 +101,16 @@ const useGameStore = create<Game>((set, get) => ({
 		} else {
 			console.error("Room Id not defined");
 		}
+	},
+	gameLoop: () => {
+		setInterval(() => {
+			get().setCountdown(get().countdown - 1);
+
+			if (get().countdown === 0) {
+				//TODO new round
+				get().setCountdown(30);
+			}
+		}, 1000);
 	},
 }));
 

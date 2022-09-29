@@ -16,9 +16,4 @@ export default API;
  * 		room_id:
  * }
  *
- * /questions/fetch
- *
- * {
- * 		room_id
- * }
  */

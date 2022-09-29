@@ -1,3 +1,4 @@
+import { socket } from "utils/webSocket";
 import API from "./api";
 
 export async function fetchQuestions(room_id: string) {
@@ -20,6 +21,8 @@ export async function createQuestion(room_id: string, track_ids: string[]) {
 		});
 
 		return res.data;
+
+		// socket.emit("tracksData", res.data);
 	} catch (error) {
 		console.error(error);
 	}
