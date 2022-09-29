@@ -17,14 +17,27 @@ const ChatInput: React.FC<ChatInputProps> = () => {
 		socket.emit("chatMessage",message);
 		setMessage("");
 	}
-	
+
+	const onEnterKeyDown = (e: any) => {
+		if (e.keyCode == 13) {
+			e.preventDefault();
+			socket.emit("chatMessage", message);
+			setMessage("");
+		}
+	};
+
 	return (
 		<div>
 			<div className="flex">
-				<input className="bg-[#404065] text-[#E5D4FF] outline-none w-full py-3 px-6 rounded-bl-lg"  onChange={(e)=>setMessage(e.target.value)} value={message}/>
+				<input
+					className="bg-[#404065] text-[#E5D4FF] outline-none w-full py-3 px-6 rounded-bl-lg"
+					onChange={e => setMessage(e.target.value)}
+					value={message}
+					onKeyDown={e => onEnterKeyDown(e)}
+				/>
 				<Button
 					className="rounded-none rounded-br-lg"
-					onClick={(e:any) => onSendButtonClickHandler(e)}
+					onClick={(e: any) => onSendButtonClickHandler(e)}
 				>
 					Send
 				</Button>
