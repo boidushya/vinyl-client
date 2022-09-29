@@ -22,7 +22,6 @@ export const getAccessTokenFromRedirectUrl = (url: string) => {
 
 	// take the access_token and split by = and take the token value
 	const accessToken = params[0].split("=")[1];
-	console.log(accessToken);
 
 	return accessToken;
 };
@@ -57,18 +56,19 @@ const useSpotifyStore = create<Spotify>((set, get) => ({
 			);
 			const data = response.data;
 
-			const playlists: Playlist[] = data.items.map((item: any) => 
-				({
-					id: item.id,
-					imageUrl: item.images.length > 0 ? item.images[0].url : "https://seed-mix-image.spotifycdn.com/v6/img/artist/3bWIy9AUrQdiNeS62Bp3OP/en/large",
-					name: item.name,
-					href: item.tracks.href,
-				}));
+			const playlists: Playlist[] = data.items.map((item: any) => ({
+				id: item.id,
+				imageUrl:
+					item.images.length > 0
+						? item.images[0].url
+						: "https://seed-mix-image.spotifycdn.com/v6/img/artist/3bWIy9AUrQdiNeS62Bp3OP/en/large",
+				name: item.name,
+				href: item.tracks.href,
+			}));
 
 			set({ playlists: playlists });
-			console.log(playlists);
 		} catch (error) {
-			//errpr
+			console.error("Failed fetch Playlist", error);
 		}
 	},
 	setAccessToken: (accessToken: string) => {
