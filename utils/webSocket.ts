@@ -10,7 +10,7 @@ import {
 
 const SOCKET_BASE_URL = "http://localhost:5000";
 
-export function createNewSocketRoom() {
+export function createNewSocketRoom(track_ids:any) {
 	const config: Config = {
 		dictionaries: [adjectives, animals],
 		separator: "-",
@@ -18,15 +18,17 @@ export function createNewSocketRoom() {
 
 	const characterName: string = uniqueNamesGenerator(config);
 
-	const roomId = nanoid(6);
+	const room_id = nanoid(6);
+
 	socket.emit("joinRoom", {
 		username: characterName,
-		room: roomId,
-		type:"admin"
+		room_id,
+		type:"admin",
+		track_ids
 	});
 
 
-	return roomId;
+	return room_id;
 }
 
 export const socket = io(SOCKET_BASE_URL);
