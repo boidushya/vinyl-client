@@ -16,6 +16,7 @@ import Link from "next/link";
 import { dropConfetti } from "components/Celebrate/Celebrate";
 import { socket } from "utils/webSocket";
 import useGameStore from "store/gameStore";
+import axios from "axios";
 
 const Home: NextPage = () => {
 	const songName = "Jenny - Studio Killers";
@@ -47,9 +48,6 @@ const Home: NextPage = () => {
 		return () => window.removeEventListener("keydown", keyboardEvents);
 	});
 
-	//const socket = socketIOClient("http://localhost:5000");
-
-	//const socket=useSocketInstanceStore((state:any)=>state.socket)
 
 	const config: Config = {
 		dictionaries: [adjectives, animals],
@@ -67,28 +65,17 @@ const Home: NextPage = () => {
 			room: roomVal,
 		});
 
-		// socket.on("message",(data:any) => {
-		// 	console.log(data,"Data from message event");
-		// })
-
 		socket.on("roomUsers", (data: any) => {
 			console.log(data);
 		});
 
 		router.push("/game");
 	};
+		
 
 	const createNewRoom = (e: any) => {
 		e.preventDefault();
-		// console.log(nanoid(6), characterName);
 
-		// const roomId = nanoid(6);
-		// socket.emit("joinRoom", {
-		// 	username: characterName,
-		// 	room: roomId,
-		// });
-
-		// setRoomId(roomId);
 		router.push("/join");
 	};
 

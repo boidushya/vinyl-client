@@ -80,6 +80,6 @@ const MusicCanvasPanel: React.FC<MusicCanvasPanelProps> = () => {
 			</div>
 		</>
 	);
-};;;;;;;;;;;;;;
+}
 
 export default MusicCanvasPanel;

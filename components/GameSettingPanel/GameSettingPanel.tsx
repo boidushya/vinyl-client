@@ -68,7 +68,7 @@ const GameSettingPanel: React.FC<GameSettingPanelProps> = () => {
 						(!playlist || roomId === undefined) &&
 						"bg-slate-400 hover:bg-slate-400"
 					}`}
-					disabled={playlist === undefined || roomId === undefined}
+					disabled={false}
 				>
 					Start Game
 				</Button>

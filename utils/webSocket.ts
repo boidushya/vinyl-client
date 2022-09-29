@@ -22,7 +22,9 @@ export function createNewSocketRoom() {
 	socket.emit("joinRoom", {
 		username: characterName,
 		room: roomId,
+		type:"admin"
 	});
+
 
 	return roomId;
 }
