@@ -19,11 +19,8 @@ export const spotifyAuthorize = () => {
 export const getAccessTokenFromRedirectUrl = (url: string) => {
 	// split between access_token, expires_on, token_type
 	const params = url.split("&");
-
 	// take the access_token and split by = and take the token value
 	const accessToken = params[0].split("=")[1];
-	console.log(accessToken);
-
 	return accessToken;
 };
 
