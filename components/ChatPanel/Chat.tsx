@@ -9,6 +9,7 @@ type Chat = {
 	text: string;
 	time: string;
 	username: string;
+	correct:boolean;
 };
 
 const Chat: React.FC<ChatProps> = () => {
@@ -16,6 +17,7 @@ const Chat: React.FC<ChatProps> = () => {
 
 	socket.on("message", (data: any) => {
 		console.log(data, "Data from chat window");
+		console.log(data,"Data");
 		setChats([...chats, data]);
 	});
 
@@ -30,6 +32,7 @@ const Chat: React.FC<ChatProps> = () => {
 					<ChatBubble
 						comment={chat.text}
 						username={chat.username}
+						correct={chat.correct}
 						key={idx}
 					/>
 				))}
