@@ -11,6 +11,8 @@ type Game = {
 	playlist: Playlist | undefined;
 	tracks: Track[];
 	currentTrack: Song | undefined;
+	questionId: string | undefined;
+	setQuestionId: (questionId: string) => void;
 	setCurrentTrack: (currentTrack: Song) => void;
 	setRounds: (round: number) => void;
 	setPlaylist: (playlist: Playlist) => void;
@@ -25,6 +27,10 @@ const useGameStore = create<Game>((set, get) => ({
 	playlist: undefined,
 	currentTrack: undefined,
 	tracks: [],
+	questionId: undefined,
+	setQuestionId: (questionId: string) => {
+		set((state: Game) => ({ ...state, questionId: questionId }));
+	},
 	setRounds: (round: number) => {
 		set((state: Game) => ({ ...state, round: round }));
 	},
