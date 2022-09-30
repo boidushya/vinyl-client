@@ -1,6 +1,7 @@
 import Button from "components/Button/Button";
 import React, { useState } from "react";
 import socketIOClient from "socket.io-client";
+import useGameStore from "store/gameStore";
 import { useSocketInstanceStore } from "store/userStore";
 import {socket} from "../../utils/webSocket";
 
@@ -9,13 +10,14 @@ interface ChatInputProps {}
 const ChatInput: React.FC<ChatInputProps> = () => {
 
 	const [message,setMessage]=useState("");
+	const {questionId}=useGameStore();
 
 	//const socket = socketIOClient("http://localhost:5000");
 	// const socket=useSocketInstanceStore((state:any)=>state.socket)
 	const onSendButtonClickHandler=(e:any)=>{
 		e.preventDefault();
 		socket.emit("chatMessage",{
-			questionId:"6qnM0XXPZOINWA778uNqQ9",
+			questionId:questionId,
 			message
 		});
 		setMessage("");
@@ -25,7 +27,7 @@ const ChatInput: React.FC<ChatInputProps> = () => {
 		if (e.keyCode == 13) {
 			e.preventDefault();
 			socket.emit("chatMessage", {
-				questionId:"6qnM0XXPZOINWA778uNqQ9",
+				questionId:questionId,
 				message
 			});
 			setMessage("");
