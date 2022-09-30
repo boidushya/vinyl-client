@@ -107,7 +107,7 @@ const Home: NextPage = () => {
 		console.log("in join");
 		socket.emit("joinRoom", {
 			username: characterName,
-			room: roomVal,
+			room_id: roomVal,
 		});
 
 		socket.on("roomUsers", (data: any) => {

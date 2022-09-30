@@ -6,11 +6,19 @@ import { MdVolumeUp, MdVolumeOff, MdPlayArrow } from "react-icons/md";
 import { socket } from "utils/webSocket";
 
 interface MusicCanvasPanelProps {}
+interface tracks{
+	name:string
+	url:string
+	image:string
+	question_id:string
+}
 
 const MusicCanvasPanel: React.FC<MusicCanvasPanelProps> = () => {
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [isMuted, setIsMuted] = useState(false);
+	const [counter,setCounter] = useState(null);
 	const [colors, setColors] = useState<String[]>([]);
+	const [tracks,setTracks] = useState<tracks>();
 	const playButtonRef = useRef(null);
 
 	// useEffect(() => {
@@ -35,9 +43,18 @@ const MusicCanvasPanel: React.FC<MusicCanvasPanelProps> = () => {
 		else setIsMuted(!isMuted);
 	};
 
+	socket.on("tracksData",(data:any) => {
+		setTracks(data);
+		console.log(data,"tracks data ");
+	})
+
+	socket.on("counter",(data:any) => {
+		setCounter(data);
+		console.log(data,"Counter");
+	})
 
 	const ALBUM_ART =
-		"https://i.scdn.co/image/ab67616d0000b273c79b600289a80aaef74d155d";
+		tracks?.image
 	const MUSIC_URL =
 		"https://listen.rezo.live/preview/886/e3a103cb56c3fda02b23d528f3eacde1_96_p.mp4";
 
@@ -67,7 +84,7 @@ const MusicCanvasPanel: React.FC<MusicCanvasPanelProps> = () => {
 				/>
 
 				<p className="font-bold text-3xl my-1 text-center tracking-wider">
-					{NAME}
+					{counter}
 				</p>
 				<button
 					ref={playButtonRef}
