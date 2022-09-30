@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import LeaderBoardProfile from "components/Profile/LeaderBoardProfile";
+import useGameStore from "store/gameStore";
+import { socket } from "utils/webSocket";
 
 interface LeaderBoardPanelProps {}
+
+
 
 const users = [
 	{
@@ -27,6 +31,14 @@ const users = [
 ];
 
 const LeaderBoardPanel: React.FC<LeaderBoardPanelProps> = ({}) => {
+
+	const {roomId} =useGameStore();
+   // const [users,setUsers]=useState([]);
+
+	socket.on('updated-score-board',(result)=>{
+		console.log(result,"updated score board")
+	})
+
 	return (
 		<div className="flex flex-col h-full gap-5 py-9">
 			<h2 className="text-xl font-semibold">Leaderboard</h2>
