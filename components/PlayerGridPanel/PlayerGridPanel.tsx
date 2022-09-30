@@ -32,6 +32,7 @@ const PlayerGridPanel: React.FC<PlayerGridPanelProps> = ({}) => {
 	const [userNames,setUserNames]=useState<string[]>([]);
 
 	socket.on('player-joined',(playerName:string)=>{
+		console.log("a new player joined ",playerName);
 		setUserNames([...userNames,playerName]);
 	})
 
