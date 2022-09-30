@@ -18,7 +18,7 @@ const MusicCanvasPanel: React.FC<MusicCanvasPanelProps> = () => {
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [isMuted, setIsMuted] = useState(false);
 	const [counter, setCounter] = useState(null);
-	const [blur, setBlur] = useState("blur-2xl");
+	const [blur, setBlur] = useState<string | null>();
 	const [colors, setColors] = useState<String[]>([]);
 	const [tracks, setTracks] = useState<tracks>();
 	const playButtonRef = useRef(null);
@@ -85,8 +85,10 @@ const MusicCanvasPanel: React.FC<MusicCanvasPanelProps> = () => {
 				setBlur("blur-md");
 			} else if (counter > 5) {
 				setBlur("blur-sm");
-			} else {
+			} else if (counter > 1) {
 				setBlur("blur-none");
+			} else {
+				setBlur("blur-2xl");
 			}
 		}
 	}, [counter]);
@@ -107,13 +109,15 @@ const MusicCanvasPanel: React.FC<MusicCanvasPanelProps> = () => {
 						mute={isMuted}
 					/>
 
-					<img
-						src={albumImageUrl}
-						alt=""
-						width={100}
-						height={100}
-						className={`${blur} w-80 h-80 rounded-lg`}
-					/>
+					<div className={`${blur === undefined ? "blur-2xl" : ""}`}>
+						<img
+							src={albumImageUrl}
+							alt=""
+							width={100}
+							height={100}
+							className={`${blur} w-80 h-80 rounded-lg`}
+						/>
+					</div>
 
 					<p className="font-bold text-3xl my-1 text-center tracking-wider">
 						{counter}

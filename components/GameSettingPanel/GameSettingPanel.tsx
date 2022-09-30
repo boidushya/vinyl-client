@@ -31,9 +31,9 @@ const GameSettingPanel: React.FC<GameSettingPanelProps> = () => {
 	return (
 		<div className="flex flex-col h-full gap-5 pt-9">
 			<h2 className="text-xl font-semibold">Settings</h2>
-			<div className="flex items-center justify-center p-4 ">
+			{/* <div className="flex items-center justify-center p-4 ">
 				<Profile username={username} isEditable />
-			</div>
+			</div> */}
 			<div>
 				<h2 className="text-lg font-medium">
 					No. Of Rounds ({gameRound})
