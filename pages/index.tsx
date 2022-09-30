@@ -2,21 +2,10 @@ import React, { useCallback, useEffect, useState } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { nanoid } from "nanoid";
-import {
-	uniqueNamesGenerator,
-	Config,
-	adjectives,
-	animals,
-} from "unique-names-generator";
 import useSound from "use-sound";
 
-import socketIOClient from "socket.io-client";
-import Link from "next/link";
-
-import { socket } from "utils/webSocket";
+import { joinSocketRoom } from "utils/webSocket";
 import useGameStore from "store/gameStore";
-import axios from "axios";
 
 const SONG_URL = [
 	{
@@ -53,6 +42,8 @@ const Home: NextPage = () => {
 	const [roomVal, setRoomVal] = useState("");
 
 	const router = useRouter();
+
+	const { setMyName } = useGameStore();
 
 	const [play, { sound }] = useSound(
 		`${process.env.NEXT_PUBLIC_REZONANCE_URL}${selectedSong.url}`,
@@ -95,32 +86,14 @@ const Home: NextPage = () => {
 		return () => window.removeEventListener("keydown", keyboardEvents);
 	});
 
-
-	const config: Config = {
-		dictionaries: [adjectives, animals],
-	};
-
-	const characterName: string = uniqueNamesGenerator(config);
-
-	const joinRoom = (e: any) => {
-		e.preventDefault();
-		console.log("in join");
-		socket.emit("joinRoom", {
-			username: characterName,
-			room_id: roomVal,
-		});
-
-		socket.on("roomUsers", (data: any) => {
-			console.log(data);
-		});
-
+	const joinNewRoom = () => {
+		const { name } = joinSocketRoom(roomVal);
+		setMyName(name);
+		setRoomId(roomVal);
 		router.push("/game");
 	};
-		
 
-	const createNewRoom = (e: any) => {
-		e.preventDefault();
-
+	const createNewRoom = () => {
 		router.push("/join");
 	};
 
@@ -182,7 +155,9 @@ const Home: NextPage = () => {
 							/>
 							<button
 								className="absolute inset-y-0 right-0 flex items-center px-4 font-bold text-white bg-indigo-700 rounded-r-lg hover:bg-indigo-600 focus:bg-indigo-800"
-								onClick={e => joinRoom(e)}
+								onClick={() => {
+									joinNewRoom();
+								}}
 							>
 								Join
 							</button>
@@ -203,7 +178,9 @@ const Home: NextPage = () => {
 						{/* <Link href="/join"> */}
 						<button
 							className="relative py-2.5 px-5  flex items-center font-bold text-white bg-indigo-600 rounded-lg hover:bg-indigo-500 focus:bg-indigo-700"
-							onClick={e => createNewRoom(e)}
+							onClick={() => {
+								createNewRoom();
+							}}
 						>
 							Create new game
 						</button>

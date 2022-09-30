@@ -13,6 +13,8 @@ type Game = {
 	currentTrack: Song | undefined;
 	questionId: string | undefined;
 	winners: Player[] | undefined;
+	myName: string | undefined;
+	setMyName: (name: string) => void;
 	setWinners: (winners: Player[]) => void;
 	setQuestionId: (questionId: string) => void;
 	setCurrentTrack: (currentTrack: Song) => void;
@@ -29,6 +31,7 @@ const useGameStore = create<Game>((set, get) => ({
 	currentTrack: undefined,
 	tracks: [],
 	questionId: undefined,
+	myName: undefined,
 	winners: [
 		{
 			name: "dummy_player_change_later_1",
@@ -46,6 +49,9 @@ const useGameStore = create<Game>((set, get) => ({
 			score: 200,
 		},
 	],
+	setMyName: (name: string) => {
+		set((state: Game) => ({ ...state, myName: name }));
+	},
 	setWinners: (winners: Player[]) => {
 		set((state: Game) => ({ ...state, winners: winners }));
 	},

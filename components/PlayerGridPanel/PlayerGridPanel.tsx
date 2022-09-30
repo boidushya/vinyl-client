@@ -11,9 +11,9 @@ import axios from "axios";
 interface PlayerGridPanelProps {}
 
 const PlayerGridPanel: React.FC<PlayerGridPanelProps> = ({}) => {
-	const { success } = useAlert();
+	const { success, error } = useAlert();
 	const { isConnected, accessToken } = useSpotifyStore();
-	const { roomId, setRoomId, playlist, rounds } = useGameStore();
+	const { roomId, setRoomId, playlist, rounds, setMyName } = useGameStore();
 
 	const [userNames, setUserNames] = useState<string[]>([]);
 
@@ -25,32 +25,39 @@ const PlayerGridPanel: React.FC<PlayerGridPanelProps> = ({}) => {
 	const createNewRoom = async () => {
 		try {
 			const tracksHref = playlist?.href;
-			const response = await axios.get(tracksHref!, {
-				headers: {
-					Authorization: `Bearer ${accessToken}`,
-				},
-			});
-			const data = response.data;
 
-			let track_ids = data.items.map(
-				(item: { track: { id: string } }) => {
-					return item.track.id;
-				}
-			);
+			if (tracksHref) {
+				const response = await axios.get(tracksHref!, {
+					headers: {
+						Authorization: `Bearer ${accessToken}`,
+					},
+				});
+				const data = response.data;
 
-			// just send selected tracks
-			track_ids = track_ids.slice(0, rounds);
-			const roomId = createNewSocketRoom(track_ids);
-			setRoomId(roomId);
+				let track_ids = data.items.map(
+					(item: { track: { id: string } }) => {
+						return item.track.id;
+					}
+				);
+
+				// just send selected tracks
+				track_ids = track_ids.slice(0, rounds);
+				console.log(track_ids);
+
+				const { roomId, name } = createNewSocketRoom(track_ids);
+				setRoomId(roomId);
+				setMyName(name);
+			} else {
+				error("Select a Playlist");
+			}
 		} catch (err) {
-			console.log(err);
+			console.log(err, "Could not create room");
 		}
 	};
 
 	let CallToAction;
 
-	if (!isConnected)
-		CallToAction = <div>Connect to spotify to choose the track</div>;
+	if (!isConnected) CallToAction = <div></div>;
 	else if (roomId === undefined)
 		CallToAction = (
 			<>
@@ -64,10 +71,7 @@ const PlayerGridPanel: React.FC<PlayerGridPanelProps> = ({}) => {
 	else {
 		CallToAction = (
 			<>
-				<h3>
-					Select the playlist, Share the Join Code with your friends
-					and Play!
-				</h3>
+				<h3>Share the Join Code with your friends and Play!</h3>
 
 				<CopyToClipboard
 					text={roomId}
@@ -90,7 +94,10 @@ const PlayerGridPanel: React.FC<PlayerGridPanelProps> = ({}) => {
 	return (
 		<div className="bg-[#27273E] rounded-xl flex items-center flex-col gap-9 py-9 h-full">
 			<h2 className="text-xl font-semibold">Players</h2>
-			<div className="flex flex-wrap justify-center gap-9">
+			{userNames.length === 0 && (
+				<p>🎵 Connect to spotify to choose the track 🎵</p>
+			)}
+			<div className="grid grid-cols-4 gap-9">
 				{userNames.map(username => (
 					<Profile username={username} key={username} />
 				))}
