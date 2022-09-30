@@ -14,14 +14,20 @@ const ChatInput: React.FC<ChatInputProps> = () => {
 	// const socket=useSocketInstanceStore((state:any)=>state.socket)
 	const onSendButtonClickHandler=(e:any)=>{
 		e.preventDefault();
-		socket.emit("chatMessage",message);
+		socket.emit("chatMessage",{
+			questionId:"6qnM0XXPZOINWA778uNqQ9",
+			message
+		});
 		setMessage("");
 	}
 
 	const onEnterKeyDown = (e: any) => {
 		if (e.keyCode == 13) {
 			e.preventDefault();
-			socket.emit("chatMessage", message);
+			socket.emit("chatMessage", {
+				questionId:"6qnM0XXPZOINWA778uNqQ9",
+				message
+			});
 			setMessage("");
 		}
 	};
