@@ -221,7 +221,7 @@ const Home: NextPage = () => {
 							y="0px"
 							fill="currentColor"
 							viewBox="20 20 60 60"
-							enable-background="new 0 0 0 0"
+							enableBackground="new 0 0 0 0"
 							xmlSpace="preserve"
 							className="inline w-5 h-5 ml-1 align-middle cursor-wait"
 						>
