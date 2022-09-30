@@ -58,9 +58,7 @@ const MusicCanvasPanel: React.FC<MusicCanvasPanelProps> = () => {
 		console.log(data, "Counter");
 	});
 
-	socket.on("game-end", () => {
-		console.log("end game");
-	});
+	
 
 	// const ALBUM_ART =
 	// 	tracks?.image
