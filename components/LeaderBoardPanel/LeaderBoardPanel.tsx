@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import LeaderBoardProfile from "components/Profile/LeaderBoardProfile";
 import useGameStore from "store/gameStore";
 import { socket } from "utils/webSocket";
+import { useRouter } from "next/router";
 
 interface LeaderBoardPanelProps {}
 
@@ -32,9 +33,9 @@ interface LeaderBoardPanelProps {}
 
 const LeaderBoardPanel: React.FC<LeaderBoardPanelProps> = ({}) => {
 
-	const {roomId} =useGameStore();
+	const {roomId,setWinners} =useGameStore();
   	const [users, setUsers]=useState<any>();
-
+    const router=useRouter();
 	
 	socket.on('updated-score-board',(result)=>{
 		 const scores:any = Object.values(result)[0];
@@ -46,9 +47,30 @@ const LeaderBoardPanel: React.FC<LeaderBoardPanelProps> = ({}) => {
 			})
 		})
 
+		data.sort((a:any,b:any)=>b.score-a.score)
+
 		setUsers(data);
 		console.log(data);
 		
+	});
+
+	socket.on("game-end", () => {
+
+		
+		const winners=users.slice(0,3);
+
+		const data=winners.map((winner:any,idx:number)=>{
+			return({
+				name:winner.username,
+				rank:idx+1,
+				score:winner.score
+			})
+		})
+
+		setWinners(data);
+		console.log(data,"winners");
+		router.push("/results")
+
 	});
 		// console.log(result,"updated score board")
 	
