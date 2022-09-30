@@ -1,5 +1,6 @@
 import React from "react";
 import Identicon from "react-identicons";
+import useGameStore from "store/gameStore";
 
 interface LeaderBoardProfileProps {
 	id: string;
@@ -14,6 +15,7 @@ const LeaderBoardProfile: React.FC<LeaderBoardProfileProps> = ({
 	score,
 	username,
 }) => {
+	const { myName } = useGameStore();
 	return (
 		<div className="flex items-center justify-between">
 			<div className="flex items-center gap-4">
@@ -25,7 +27,13 @@ const LeaderBoardProfile: React.FC<LeaderBoardProfileProps> = ({
 						bg="#ffffff"
 					/>
 				</div>
-				<p className="font-bold">{username}</p>
+				<p
+					className={`font-medium text-sm ${
+						myName === username && `text-green-300`
+					}`}
+				>
+					{username}
+				</p>
 			</div>
 			<p className="text-sm">{score}</p>
 		</div>

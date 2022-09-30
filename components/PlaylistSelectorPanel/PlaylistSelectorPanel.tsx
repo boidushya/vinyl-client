@@ -43,6 +43,11 @@ const PlaylistSelectorPanel: React.FC<PlaylistSelectorPanelProps> = ({}) => {
 				</div>
 			) : (
 				<div className="h-full overflow-y-scroll overflow-x-hidden pr-4">
+					{playlists.length === 0 && (
+						<p className="text-center w-full">
+							🎵 Add your music. 🎵
+						</p>
+					)}
 					<div className="grid grid-cols-3 gap-4">
 						{playlists.map(playlist => (
 							<Playlist playlist={playlist} key={playlist.id} />
