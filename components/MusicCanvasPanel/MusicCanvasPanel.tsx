@@ -16,9 +16,10 @@ interface tracks{
 const MusicCanvasPanel: React.FC<MusicCanvasPanelProps> = () => {
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [isMuted, setIsMuted] = useState(false);
-	const [counter,setCounter] = useState(null);
+	const [counter, setCounter] = useState(null);
+	const [blur, setBlur] = useState("blur-2xl");
 	const [colors, setColors] = useState<String[]>([]);
-	const [tracks,setTracks] = useState<tracks>();
+	const [tracks, setTracks] = useState<tracks>();
 	const playButtonRef = useRef(null);
 	const [albumURL,setAlbumURL]=useState(null);
 	const[albumImageUrl,setAlbumImageUrl]=useState('')
@@ -45,28 +46,46 @@ const MusicCanvasPanel: React.FC<MusicCanvasPanelProps> = () => {
 		else setIsMuted(!isMuted);
 	};
 
-	socket.on("tracksData",(data:any) => {
+	socket.on("tracksData", (data: any) => {
 		setTracks(data);
 		setAlbumURL(data.url)
 		setAlbumImageUrl(data.image);
 		console.log(data,"tracks data ");
 	})
 
-	socket.on("counter",(data:any) => {
+	socket.on("counter", (data: any) => {
 		setCounter(data);
-		console.log(data,"Counter");
-	})
+		console.log(data, "Counter");
+	});
 
 	socket.on("game-end",()=>{
 		console.log('end game');
 	})
 
-	const ALBUM_ART =
-		tracks?.image
-	const MUSIC_URL =
-		tracks?.url;
+	// const ALBUM_ART =
+	// 	tracks?.image
+	// const MUSIC_URL =
+	// 	tracks?.url;
 
 	const NAME = "_____ _____";
+
+	useEffect(() => {
+		if (counter) {
+			if (counter > 25) {
+				setBlur("blur-2xl");
+			} else if (counter > 20) {
+				setBlur("blur-xl");
+			} else if (counter > 15) {
+				setBlur("blur-lg");
+			} else if (counter > 10) {
+				setBlur("blur-md");
+			} else if (counter > 5) {
+				setBlur("blur-sm");
+			} else {
+				setBlur("blur-none");
+			}
+		}
+	}, [counter]);
 
 	return (
 		albumURL &&
@@ -89,7 +108,7 @@ const MusicCanvasPanel: React.FC<MusicCanvasPanelProps> = () => {
 					alt=""
 					width={100}
 					height={100}
-					className="blur-none w-80 h-80 rounded-lg"
+					className={`${blur} w-80 h-80 rounded-lg`}
 				/>
 
 				<p className="font-bold text-3xl my-1 text-center tracking-wider">
