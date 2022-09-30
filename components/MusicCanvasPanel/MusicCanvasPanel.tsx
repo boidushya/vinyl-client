@@ -20,6 +20,8 @@ const MusicCanvasPanel: React.FC<MusicCanvasPanelProps> = () => {
 	const [colors, setColors] = useState<String[]>([]);
 	const [tracks,setTracks] = useState<tracks>();
 	const playButtonRef = useRef(null);
+	const [albumURL,setAlbumURL]=useState(null);
+	const[albumImageUrl,setAlbumImageUrl]=useState('')
 
 	// useEffect(() => {
 	// 	if (playButtonRef !== null && playButtonRef.current)
@@ -45,6 +47,8 @@ const MusicCanvasPanel: React.FC<MusicCanvasPanelProps> = () => {
 
 	socket.on("tracksData",(data:any) => {
 		setTracks(data);
+		setAlbumURL(data.url)
+		setAlbumImageUrl(data.image);
 		console.log(data,"tracks data ");
 	})
 
@@ -53,16 +57,21 @@ const MusicCanvasPanel: React.FC<MusicCanvasPanelProps> = () => {
 		console.log(data,"Counter");
 	})
 
+	socket.on("game-end",()=>{
+		console.log('end game');
+	})
+
 	const ALBUM_ART =
 		tracks?.image
 	const MUSIC_URL =
-		"https://listen.rezo.live/preview/886/e3a103cb56c3fda02b23d528f3eacde1_96_p.mp4";
+		tracks?.url;
 
 	const NAME = "_____ _____";
 
 	return (
+		albumURL &&
 		<>
-			<ColorExtractor src={ALBUM_ART} getColors={getColors} />
+			<ColorExtractor src={albumImageUrl} getColors={getColors} />
 			<div
 				className={`rounded-xl flex items-center justify-center flex-col gap-9 py-9 h-full overflow-hidden`}
 				style={{
@@ -70,13 +79,13 @@ const MusicCanvasPanel: React.FC<MusicCanvasPanelProps> = () => {
 				}}
 			>
 				<ReactHowler
-					src={MUSIC_URL}
+					src={albumURL}
 					playing={isPlaying}
 					mute={isMuted}
 				/>
 
 				<img
-					src={ALBUM_ART}
+					src={albumImageUrl}
 					alt=""
 					width={100}
 					height={100}

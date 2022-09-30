@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import Profile from "components/Profile/Profile";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import useAlert from "store/alertStore";
 import useSpotifyStore from "store/spotifyAuthStore";
 import useGameStore from "store/gameStore";
 import Button from "components/Button/Button";
-import { createNewSocketRoom } from "utils/webSocket";
+import { createNewSocketRoom, socket } from "utils/webSocket";
 import axios from "axios";
 
 interface PlayerGridPanelProps {}
@@ -14,20 +14,26 @@ const PlayerGridPanel: React.FC<PlayerGridPanelProps> = ({}) => {
 	const { success } = useAlert();
 	const { isConnected } = useSpotifyStore();
 	const { roomId, setRoomId,playlist,rounds } = useGameStore();
-	const usernames = [
-		"mavn",
-		"Test",
-		"hello",
-		"this is name",
-		// "kialde",
-		// "loda",
-		// "lassan",
-		// "bakchod",
-		// "react",
-		// "angular",
-		// "vue",
-		// "lorem ipsum",
-	];
+	// const usernames = [
+	// 	"mavn",
+	// 	"Test",
+	// 	"hello",
+	// 	"this is name",
+	// 	// "kialde",
+	// 	// "loda",
+	// 	// "lassan",
+	// 	// "bakchod",
+	// 	// "react",
+	// 	// "angular",
+	// 	// "vue",
+	// 	// "lorem ipsum",
+	// ];
+
+	const [userNames,setUserNames]=useState<string[]>([]);
+
+	socket.on('player-joined',(playerName:string)=>{
+		setUserNames([...userNames,playerName]);
+	})
 
 	const createNewRoom = async () => {
 		try {
@@ -110,7 +116,7 @@ const PlayerGridPanel: React.FC<PlayerGridPanelProps> = ({}) => {
 		<div className="bg-[#27273E] rounded-xl flex items-center flex-col gap-9 py-9 h-full">
 			<h2 className="text-xl font-semibold">Players</h2>
 			<div className="flex flex-wrap justify-center gap-9">
-				{usernames.map(username => {
+				{userNames.map(username => {
 					if (username == admin) {
 						return (
 							<Profile
