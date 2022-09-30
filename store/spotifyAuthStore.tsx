@@ -4,7 +4,7 @@ import axios from "axios";
 import { Playlist } from "types/Playlist";
 
 const CLIENT_ID = "61ffd01eb83d470da2b2289dc34d6871";
-const REDIRECT_URL = "http://localhost:3000/join";
+const REDIRECT_URL = "https://vinyl-client.vercel.app/join";
 const SPOTIFY_AUTH_BASE_URL = "https://accounts.spotify.com/authorize";
 const SCOPE_DELIMITER = "%20";
 const SCOPES = ["playlist-read-private", "playlist-read-collaborative"];

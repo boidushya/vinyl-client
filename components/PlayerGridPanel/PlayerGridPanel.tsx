@@ -18,7 +18,7 @@ const PlayerGridPanel: React.FC<PlayerGridPanelProps> = ({}) => {
 	const [userNames, setUserNames] = useState<string[]>([]);
 
 	socket.on("player-joined", (playerName: string) => {
-		console.log("a new player joined ", playerName);
+		//console.log("a new player joined ", playerName);
 		setUserNames([...userNames, playerName]);
 	});
 
@@ -42,7 +42,7 @@ const PlayerGridPanel: React.FC<PlayerGridPanelProps> = ({}) => {
 
 				// just send selected tracks
 				track_ids = track_ids.slice(0, rounds);
-				console.log(track_ids);
+			//	console.log(track_ids);
 
 				const { roomId, name } = createNewSocketRoom(track_ids);
 				setRoomId(roomId);

@@ -16,14 +16,14 @@ const Chat: React.FC<ChatProps> = () => {
 	const [chats, setChats] = useState<Chat[]>([]);
 
 	socket.on("message", (data: any) => {
-		console.log(data, "Data from chat window");
-		console.log(data,"Data");
+		// console.log(data, "Data from chat window");
+		// console.log(data,"Data");
 		setChats([...chats, data]);
 	});
 
-	socket.on("getUsers", (data: any) => {
-		console.log(data, "users data");
-	});
+	// socket.on("getUsers", (data: any) => {
+	// 	console.log(data, "users data");
+	// });
 
 	return (
 		chats && (

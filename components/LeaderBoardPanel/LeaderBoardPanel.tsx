@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import LeaderBoardProfile from "components/Profile/LeaderBoardProfile";
 import useGameStore from "store/gameStore";
 import { socket } from "utils/webSocket";
@@ -36,30 +36,32 @@ const LeaderBoardPanel: React.FC<LeaderBoardPanelProps> = ({}) => {
 	const {roomId,setWinners} =useGameStore();
   	const [users, setUsers]=useState<any>();
     const router=useRouter();
+
+	useEffect(()=>{},[users])
 	
-	socket.on('updated-score-board',(result)=>{
-		 const scores:any = Object.values(result)[0];
+	socket.on('updated-score-board',async(result)=>{
+		 const scores:any = await Object.values(result)[0];
 		
-		const data = scores.map((score: any) => {
+		const data = await scores.map((score: any) => {
 			return ({ 
 				username: score[0],
 				score: score[1]
 			})
 		})
 
-		data.sort((a:any,b:any)=>b.score-a.score)
+		await data.sort((a:any,b:any)=>b.score-a.score)
 
 		setUsers(data);
-		console.log(data);
+		//console.log(data);
 		
 	});
 
-	socket.on("game-end", () => {
+	socket.on("game-end", async(result) => {
 
-		
-		const winners=users.slice(0,3);
+		if(users){
+			const winners=users.slice(0,3);
 
-		const data=winners.map((winner:any,idx:number)=>{
+		const winner_data=winners.map((winner:any,idx:number)=>{
 			return({
 				name:winner.username,
 				rank:idx+1,
@@ -67,9 +69,11 @@ const LeaderBoardPanel: React.FC<LeaderBoardPanelProps> = ({}) => {
 			})
 		})
 
-		setWinners(data);
-		console.log(data,"winners");
+		setWinners(winner_data);
+		console.log(winner_data,"winners");
 		router.push("/results")
+		}
+		
 
 	});
 		// console.log(result,"updated score board")
