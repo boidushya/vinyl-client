@@ -12,63 +12,39 @@ interface PlayerGridPanelProps {}
 
 const PlayerGridPanel: React.FC<PlayerGridPanelProps> = ({}) => {
 	const { success } = useAlert();
-	const { isConnected } = useSpotifyStore();
-	const { roomId, setRoomId,playlist,rounds } = useGameStore();
-	// const usernames = [
-	// 	"mavn",
-	// 	"Test",
-	// 	"hello",
-	// 	"this is name",
-	// 	// "kialde",
-	// 	// "loda",
-	// 	// "lassan",
-	// 	// "bakchod",
-	// 	// "react",
-	// 	// "angular",
-	// 	// "vue",
-	// 	// "lorem ipsum",
-	// ];
+	const { isConnected, accessToken } = useSpotifyStore();
+	const { roomId, setRoomId, playlist, rounds } = useGameStore();
 
-	const [userNames,setUserNames]=useState<string[]>([]);
+	const [userNames, setUserNames] = useState<string[]>([]);
 
-	socket.on('player-joined',(playerName:string)=>{
-		console.log("a new player joined ",playerName);
-		setUserNames([...userNames,playerName]);
-	})
+	socket.on("player-joined", (playerName: string) => {
+		console.log("a new player joined ", playerName);
+		setUserNames([...userNames, playerName]);
+	});
 
 	const createNewRoom = async () => {
 		try {
 			const tracksHref = playlist?.href;
 			const response = await axios.get(tracksHref!, {
 				headers: {
-					Authorization: `Bearer ${
-						useSpotifyStore.getState().accessToken
-					}`,
+					Authorization: `Bearer ${accessToken}`,
 				},
 			});
-
 			const data = response.data;
-			
+
 			let track_ids = data.items.map(
 				(item: { track: { id: string } }) => {
 					return item.track.id;
 				}
-				);
-				
-				// just send selected tracks
-				
-				track_ids = track_ids.slice(0, rounds);
+			);
 
-				const roomId = createNewSocketRoom(track_ids);
-
-				setRoomId(roomId);
-
-			}	
-		catch(err) {
+			// just send selected tracks
+			track_ids = track_ids.slice(0, rounds);
+			const roomId = createNewSocketRoom(track_ids);
+			setRoomId(roomId);
+		} catch (err) {
 			console.log(err);
 		}
-		
-			
 	};
 
 	let CallToAction;
@@ -111,30 +87,13 @@ const PlayerGridPanel: React.FC<PlayerGridPanelProps> = ({}) => {
 		);
 	}
 
-	const admin = "mavn";
-
 	return (
 		<div className="bg-[#27273E] rounded-xl flex items-center flex-col gap-9 py-9 h-full">
 			<h2 className="text-xl font-semibold">Players</h2>
 			<div className="flex flex-wrap justify-center gap-9">
-				{userNames.map(username => {
-					if (username == admin) {
-						return (
-							<Profile
-								username={username}
-								key={username}
-								isEditable
-							/>
-						);
-					}
-					return (
-						<Profile
-							username={username}
-							key={username}
-							isKickable
-						/>
-					);
-				})}
+				{userNames.map(username => (
+					<Profile username={username} key={username} />
+				))}
 			</div>
 			<div className="w-full mt-auto mb-1 text-center px-9 justify-self-end">
 				{CallToAction}

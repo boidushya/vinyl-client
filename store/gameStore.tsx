@@ -3,7 +3,7 @@ import { Playlist } from "types/Playlist";
 import { Song, Track } from "types/Track";
 import axios from "axios";
 import useSpotifyStore from "./spotifyAuthStore";
-import { createQuestion, fetchQuestions } from "api/gameRequests";
+import { Player } from "types/Player";
 
 type Game = {
 	roomId: string | undefined;
@@ -12,13 +12,14 @@ type Game = {
 	tracks: Track[];
 	currentTrack: Song | undefined;
 	questionId: string | undefined;
+	winners: Player[] | undefined;
+	setWinners: (winners: Player[]) => void;
 	setQuestionId: (questionId: string) => void;
 	setCurrentTrack: (currentTrack: Song) => void;
 	setRounds: (round: number) => void;
 	setPlaylist: (playlist: Playlist) => void;
 	setTracks: (tracks: Track[]) => void;
 	setRoomId: (roomId: string) => void;
-	start: () => void;
 };
 
 const useGameStore = create<Game>((set, get) => ({
@@ -28,6 +29,26 @@ const useGameStore = create<Game>((set, get) => ({
 	currentTrack: undefined,
 	tracks: [],
 	questionId: undefined,
+	winners: [
+		{
+			name: "dummy_player_change_later_1",
+			rank: 1,
+			score: 490,
+		},
+		{
+			name: "dummy_player_change_later_2",
+			rank: 2,
+			score: 300,
+		},
+		{
+			name: "dummy_player_change_later_3",
+			rank: 3,
+			score: 200,
+		},
+	],
+	setWinners: (winners: Player[]) => {
+		set((state: Game) => ({ ...state, winners: winners }));
+	},
 	setQuestionId: (questionId: string) => {
 		set((state: Game) => ({ ...state, questionId: questionId }));
 	},
@@ -45,60 +66,6 @@ const useGameStore = create<Game>((set, get) => ({
 	},
 	setCurrentTrack: (song: Song) => {
 		set((state: Game) => ({ ...state, currentTrack: song }));
-	},
-	start: async () => {
-		try {
-			const tracksHref = get().playlist?.href;
-			const response = await axios.get(tracksHref!, {
-				headers: {
-					Authorization: `Bearer ${
-						useSpotifyStore.getState().accessToken
-					}`,
-				},
-			});
-
-			const roomId = get().roomId;
-			const rounds = get().rounds;
-			const data = response.data;
-			let track_ids = data.items.map(
-				(item: { track: { id: string } }) => {
-					return item.track.id;
-				}
-			);
-
-			// just send selected tracks
-
-			track_ids = track_ids.slice(0, rounds);
-
-			console.log({
-				roomId,
-				rounds,
-				track_ids,
-			});
-
-			// TODO : understand create questions
-			// TODO : just
-
-			if (roomId) {
-				const res = await createQuestion(roomId, track_ids);
-			} else {
-				console.error("Room Id not defined");
-			}
-		} catch (error) {
-			console.error(error);
-		}
-	},
-	fetchQuestion: async () => {
-		const roomId = get().roomId;
-
-		// TODO : fetch question
-
-		if (roomId) {
-			const questions = await fetchQuestions(roomId);
-			console.log(questions);
-		} else {
-			console.error("Room Id not defined");
-		}
 	},
 }));
 

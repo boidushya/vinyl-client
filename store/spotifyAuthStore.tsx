@@ -68,7 +68,7 @@ const useSpotifyStore = create<Spotify>((set, get) => ({
 
 			set({ playlists: playlists });
 		} catch (error) {
-			console.error("Failed fetch Playlist", error);
+			console.error(error, "Couldn't fetch playlists");
 		}
 	},
 	setAccessToken: (accessToken: string) => {

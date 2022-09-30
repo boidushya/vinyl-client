@@ -1,4 +1,4 @@
-import { Player } from "./PodiumStep";
+import { Player } from "types/Player";
 import PodiumStep from "./PodiumStep";
 
 interface PodiumProps {
@@ -20,7 +20,7 @@ const Podium: React.FC<PodiumProps> = ({ players }) => {
 		>
 			{podium.map((Player, index) => (
 				<PodiumStep
-					key={Player.id}
+					key={Player.name}
 					podium={podium}
 					player={Player}
 					index={index}
