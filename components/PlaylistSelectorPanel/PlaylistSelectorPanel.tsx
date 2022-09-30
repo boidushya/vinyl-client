@@ -62,10 +62,10 @@ const PlaylistSelectorPanel: React.FC<PlaylistSelectorPanelProps> = ({}) => {
 		);
 	};
 
-	const createNewRoom = () => {
-		const roomId = createNewSocketRoom();
-		setRoomId(roomId);
-	};
+	// const createNewRoom = () => {
+	// 	const roomId = createNewSocketRoom();
+	// 	setRoomId(roomId);
+	// };
 
 	return (
 		<div className="flex flex-col h-full gap-5 pt-9">

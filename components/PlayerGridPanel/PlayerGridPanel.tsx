@@ -52,8 +52,6 @@ const PlayerGridPanel: React.FC<PlayerGridPanelProps> = ({}) => {
 				
 				track_ids = track_ids.slice(0, rounds);
 
-				console.log(track_ids,"trackss");
-
 				const roomId = createNewSocketRoom(track_ids);
 
 				setRoomId(roomId);

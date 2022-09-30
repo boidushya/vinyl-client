@@ -75,7 +75,6 @@ const useGameStore = create<Game>((set, get) => ({
 
 			if (roomId) {
 				const res = await createQuestion(roomId, track_ids);
-				console.log(res,"Data from create questioons");
 			} else {
 				console.error("Room Id not defined");
 			}
