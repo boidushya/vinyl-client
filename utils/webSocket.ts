@@ -7,7 +7,7 @@ import {
 	animals,
 } from "unique-names-generator";
 
-const SOCKET_BASE_URL = "http://localhost:5000";
+const SOCKET_BASE_URL = "https://vinyl-socket.onrender.com/";
 
 export function createNewSocketRoom(track_ids: any) {
 	const config: Config = {
