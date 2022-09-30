@@ -1,13 +1,6 @@
 import Profile from "components/Profile/Profile";
 import { motion } from "framer-motion";
-import Image from "next/image";
-
-export interface Player {
-	id: string;
-	name: string;
-	rank: number;
-	score: number;
-}
+import { Player } from "types/Player";
 
 interface Props {
 	readonly podium: Player[];
@@ -56,7 +49,7 @@ export default function PodiumStep({ podium, player, index }: Props) {
 					}),
 					hidden: { opacity: 0, height: 0 },
 				}}
-				className="bg-indigo-600 flex w-28 shadow-lg place-content-center"
+				className="backdrop-blur-sm backdrop-brightness-200 rounded-md flex w-28 shadow-sm place-content-center"
 				style={{
 					filter: `opacity(${
 						0.7 + (podium.length - player.rank) / podium.length

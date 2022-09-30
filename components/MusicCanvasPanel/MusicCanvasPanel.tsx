@@ -27,10 +27,6 @@ const MusicCanvasPanel: React.FC<MusicCanvasPanelProps> = () => {
 
 	const { setQuestionId } = useGameStore();
 
-	// useEffect(() => {
-	// 	if (playButtonRef !== null && playButtonRef.current)
-	// 		playButtonRef.current.click();
-	// }, [playButtonRef]);
 
 	let icon;
 	if (!isPlaying) {
