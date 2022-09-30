@@ -92,7 +92,7 @@ const PlayerGridPanel: React.FC<PlayerGridPanelProps> = ({}) => {
 	}
 
 	return (
-		<div className="bg-[#27273E] rounded-xl flex items-center flex-col gap-9 py-9 h-full">
+		<div className="bg-[#27273E] rounded-xl flex items-center flex-col gap-9 p-9 h-full">
 			<h2 className="text-xl font-semibold">Players</h2>
 			{userNames.length === 0 && (
 				<p>🎵 Connect to spotify to choose the track 🎵</p>
